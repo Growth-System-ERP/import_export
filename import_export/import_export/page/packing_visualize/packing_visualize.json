@@ -1,0 +1,30 @@
+{
+ "content": null,
+ "creation": "2025-09-26 22:00:42.804805",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-09-26 22:05:05.812809",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "packing-visualize",
+ "owner": "Administrator",
+ "page_name": "packing-visualize",
+ "roles": [],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "packing-visualize",
+  "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Stock Manager"
+  },
+  {
+   "role": "Stock User"
+  }
+ ]
+}

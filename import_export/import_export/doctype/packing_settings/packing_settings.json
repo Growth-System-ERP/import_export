@@ -1,0 +1,86 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-09-09 01:16:21.383080",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "default_dimension_uom",
+  "column_break_iuca",
+  "packing_strategy",
+  "fragile_handling",
+  "cost_optimization",
+  "enable_3d_visualization"
+ ],
+ "fields": [
+  {
+   "fieldname": "default_dimension_uom",
+   "fieldtype": "Link",
+   "label": "Default Dimension UOM",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "column_break_iuca",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "packing_strategy",
+   "fieldtype": "Select",
+   "label": "Packing Strategy",
+   "options": "Minimize Cartons\nMinimize Waste\nMaximize Efficiency"
+  },
+  {
+   "default": "0",
+   "fieldname": "fragile_handling",
+   "fieldtype": "Check",
+   "label": "Enable fragile handling"
+  },
+  {
+   "default": "0",
+   "fieldname": "cost_optimization",
+   "fieldtype": "Check",
+   "label": "Enable cost optimization"
+  },
+  {
+   "default": "0",
+   "fieldname": "cost_optimization",
+   "fieldtype": "Check",
+   "label": "Enable cost optimization"
+  },
+  {
+   "default": "0",
+   "fieldname": "fragile_handling",
+   "fieldtype": "Check",
+   "label": "Enable fragile handling"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_3d_visualization",
+   "fieldtype": "Check",
+   "label": "3D Visualization"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-09-25 18:00:59.989887",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Packing Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

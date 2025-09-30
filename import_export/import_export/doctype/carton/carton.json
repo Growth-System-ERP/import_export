@@ -1,0 +1,141 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "field:carton_name",
+ "creation": "2025-09-08 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "carton_name",
+  "disabled",
+  "weight_limit",
+  "cost_per_unit",
+  "column_break_rlad",
+  "height",
+  "width",
+  "length",
+  "uom",
+  "volume",
+  "section_break_fjpw",
+  "carton_type",
+  "max_stack_height",
+  "column_break_cwmy",
+  "material",
+  "fragile_safe"
+ ],
+ "fields": [
+  {
+   "fieldname": "carton_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Carton Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "length",
+   "fieldtype": "Float",
+   "label": "Length"
+  },
+  {
+   "fieldname": "width",
+   "fieldtype": "Float",
+   "label": "Width"
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Float",
+   "label": "Height"
+  },
+  {
+   "description": "Auto-calculated = L \u00d7 W \u00d7 H",
+   "fieldname": "volume",
+   "fieldtype": "Float",
+   "label": "Volume",
+   "read_only": 1
+  },
+  {
+   "description": "Optional",
+   "fieldname": "weight_limit",
+   "fieldtype": "Float",
+   "label": "Weight Limit"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "Dimension UOM",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "column_break_rlad",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "cost_per_unit",
+   "fieldtype": "Currency",
+   "label": "Cost per carton"
+  },
+  {
+   "fieldname": "carton_type",
+   "fieldtype": "Select",
+   "label": "Type of Carton",
+   "options": "Standard Box\nFlat Pack\nTube\nCustom"
+  },
+  {
+   "fieldname": "section_break_fjpw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "max_stack_height",
+   "fieldtype": "Int",
+   "label": "Maximum stacking height"
+  },
+  {
+   "fieldname": "column_break_cwmy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "material",
+   "fieldtype": "Select",
+   "label": "Carton material",
+   "options": "Cardboard\nPlastic\nMetal\nWood"
+  },
+  {
+   "default": "0",
+   "fieldname": "fragile_safe",
+   "fieldtype": "Check",
+   "label": "Safe for fragile items"
+  }
+ ],
+ "links": [],
+ "modified": "2025-09-24 23:09:59.212008",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Carton",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

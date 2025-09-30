@@ -11,7 +11,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/import_export/css/import_export.css"
-# app_include_js = "/assets/import_export/js/import_export.js"
+app_include_js = "packing_visualizer.bundle.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/import_export/css/import_export.css"
@@ -28,7 +28,7 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Pick List" : "public/js/pick_list.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -122,13 +122,14 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Item": {
+		# "validate": "import_export.packing_system.main_controller.calc_vol"
+	},
+	"Pick List": {
+        # "validate": "import_export.packing_system.main_controller.validate_carton_assignment"
+    }
+}
 
 # Scheduled Tasks
 # ---------------

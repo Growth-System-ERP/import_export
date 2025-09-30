@@ -1,0 +1,51 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Item",
+   "fieldname": "volume_per_unit",
+   "fieldtype": "Float",
+   "insert_after": "dimension_uom",
+   "label": "Volume Per Unit",
+   "name": "Item-volume_per_unit",
+   "read_only": 1
+  },
+  {
+   "dt": "Item",
+   "fieldname": "dimension_uom",
+   "fieldtype": "Link",
+   "insert_after": "height",
+   "label": "Dimension UOM",
+   "name": "Item-dimension_uom",
+   "options": "UOM"
+  },
+  {
+   "dt": "Item",
+   "fieldname": "height",
+   "fieldtype": "Float",
+   "insert_after": "width",
+   "label": "Height",
+   "name": "Item-height"
+  },
+  {
+   "dt": "Item",
+   "fieldname": "width",
+   "fieldtype": "Float",
+   "insert_after": "length",
+   "label": "Width",
+   "name": "Item-width"
+  },
+  {
+   "dt": "Item",
+   "fieldname": "length",
+   "fieldtype": "Float",
+   "insert_after": "valuation_method",
+   "label": "Length",
+   "name": "Item-length"
+  }
+],
+ "custom_perms": [],
+ "doctype": "Item",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

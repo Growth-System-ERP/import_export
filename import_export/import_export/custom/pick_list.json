@@ -1,0 +1,79 @@
+{
+ "custom_fields": [
+  {
+    "dt": "Pick List",
+    "fieldname": "sb_packing",
+    "fieldtype": "Section Break",
+    "label": "",
+    "insert_after": "locations",
+    "name": "Pick List-sb_packing",
+    "hide_border": 1
+  },
+  {
+    "dt": "Pick List",
+    "fieldname": "carton_assignments",
+    "fieldtype": "Table",
+    "label": "Carton Assignments",
+    "options": "Pick List Carton",
+    "insert_after": "sb_packing",
+    "name": "Pick List-carton_assignments"
+  },
+  {
+    "dt": "Pick List",
+    "fieldname": "sb_carton_assgn",
+    "fieldtype": "Section Break",
+    "label": "",
+    "insert_after": "carton_assignments",
+    "name": "Pick List-sb_carton_assgn"
+  },
+  {
+    "dt": "Pick List",
+    "fieldname": "total_cartons",
+    "fieldtype": "Float",
+    "label": "Total Cartons",
+    "insert_after": "sb_carton_assgn",
+    "name": "Pick List-total_cartons",
+    "read_only": 1
+  },
+  {
+    "dt": "Pick List",
+    "fieldname": "total_packing_cost",
+    "fieldtype": "Currency",
+    "label": "Total Packing Cost",
+    "insert_after": "total_cartons",
+    "name": "Pick List-total_packing_cost",
+    "read_only": 1
+  },
+  {
+    "dt": "Pick List",
+    "fieldname": "cb_carton_assgn_det",
+    "fieldtype": "Column Break",
+    "label": "",
+    "insert_after": "total_packing_cost",
+    "name": "Pick List-cb_carton_assgn_det"
+  },
+  {
+    "dt": "Pick List",
+    "fieldname": "packing_strategy",
+    "fieldtype": "Data",
+    "label": "Packing Strategy",
+    "insert_after": "cb_carton_assgn_det",
+    "name": "Pick List-packing_strategy",
+    "read_only": 1
+  },
+  {
+    "dt": "Pick List",
+    "fieldname": "average_efficiency",
+    "fieldtype": "Percent",
+    "label": "Avg. Efficiency",
+    "insert_after": "packing_strategy",
+    "name": "Pick List-average_efficiency",
+    "read_only": 1
+  }
+],
+ "custom_perms": [],
+ "doctype": "Pick List",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}
