@@ -28,7 +28,11 @@ app_include_js = "packing_visualizer.bundle.js"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Pick List" : "public/js/pick_list.js"}
+doctype_js = {
+	"Pick List" : "import_export/custom_script/pick_list/pick_list.js",
+	"Sales Order" : "import_export/custom_script/sales_order/sales_order.js",
+	"Purchase Invoice" : "import_export/custom_script/purchase_invoice/purchase_invoice.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -124,7 +128,7 @@ doctype_js = {"Pick List" : "public/js/pick_list.js"}
 
 doc_events = {
 	"Item": {
-		# "validate": "import_export.packing_system.main_controller.calc_vol"
+		"validate": "import_export.packing_system.utils.calc_vol"
 	},
 	"Pick List": {
         # "validate": "import_export.packing_system.main_controller.validate_carton_assignment"

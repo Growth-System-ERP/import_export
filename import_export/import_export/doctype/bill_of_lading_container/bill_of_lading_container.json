@@ -1,0 +1,55 @@
+{
+    "doctype": "DocType",
+    "owner": "Administrator",
+    "module": "Import Export",
+    "name": "Bill of Lading Container",
+    "istable": 1,
+    "fields": [
+      {
+        "fieldname": "container_no",
+        "label": "Container Number",
+        "fieldtype": "Data",
+        "in_list_view": 1,
+        "columns": 2,
+        "reqd": 1
+      },
+      {
+        "fieldname": "seal_no",
+        "label": "Seal Number",
+        "fieldtype": "Data",
+        "in_list_view": 1,
+        "columns": 2
+      },
+      {
+        "fieldname": "container_size",
+        "label": "Container Size",
+        "fieldtype": "Select",
+        "options": "20ft\n40ft\n40ft HC\n45ft HC",
+        "in_list_view": 1,
+        "columns": 1
+      },
+      {
+        "fieldname": "container_type",
+        "label": "Container Type",
+        "fieldtype": "Select",
+        "options": "Dry\nRefer\nOpen Top\nFlat Rack",
+        "default": "Dry",
+        "in_list_view": 1,
+        "columns": 1
+      },
+      {
+        "fieldname": "no_of_packages",
+        "label": "Number of Packages",
+        "fieldtype": "Int",
+        "in_list_view": 1,
+        "columns": 1
+      },
+      {
+        "fieldname": "gross_weight",
+        "label": "Gross Weight (Kg)",
+        "fieldtype": "Float",
+        "in_list_view": 1,
+        "columns": 1
+      }
+    ]
+  }

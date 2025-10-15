@@ -104,16 +104,12 @@ def calculate_pick_list_packing(pick_list_name, strategy="minimize_cartons", ena
         carton_assignment.utilization = float(str(assignment.get("utilization", "0")).replace("%", ""))
         carton_assignment.item_summary = assignment.get("item_summary", "")
         carton_assignment.total_items = assignment.get("total_items", 0)
-        carton_assignment.items_per_carton = assignment.get("items_per_carton", 0)  # NEW field
-
-        # Additional carton details
         carton_assignment.length = assignment["carton"]["length"]
         carton_assignment.width = assignment["carton"]["width"]
         carton_assignment.height = assignment["carton"]["height"]
         carton_assignment.weight_limit = assignment["carton"]["weight_limit"]
         carton_assignment.cost_per_unit = assignment["carton"]["cost_per_unit"]
-
-        # Store pattern signature for identification
+        carton_assignment.items_per_carton = assignment.get("items_per_carton", 0)
         carton_assignment.pattern_signature = assignment.get("pattern_signature", "")
 
         # Store COMPRESSED 3D positions (SINGLE PATTERN only, not all cartons)

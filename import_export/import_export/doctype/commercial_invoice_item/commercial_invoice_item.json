@@ -1,0 +1,137 @@
+{
+ "actions": [],
+ "creation": "2025-10-14 01:50:49.995148",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "description",
+  "hs_code",
+  "country_of_origin",
+  "qty",
+  "uom",
+  "rate",
+  "amount",
+  "net_weight",
+  "gross_weight",
+  "total_net_weight",
+  "total_gross_weight",
+  "sales_order_item"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "columns": 3,
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name"
+  },
+  {
+   "fetch_from": "item_code.description",
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "item_code.gst_hsn_code",
+   "fieldname": "hs_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HS Code (8-digit)"
+  },
+  {
+   "fetch_from": "item_code.country_of_origin",
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "label": "Country of Origin",
+   "options": "Country"
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "item_code.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Unit Price",
+   "options": "currency"
+  },
+  {
+   "columns": 2,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_code.weight_per_unit",
+   "fieldname": "net_weight",
+   "fieldtype": "Float",
+   "label": "Net Weight (Kg)"
+  },
+  {
+   "fetch_from": "item_code.gross_weight",
+   "fieldname": "gross_weight",
+   "fieldtype": "Float",
+   "label": "Gross Weight (Kg)"
+  },
+  {
+   "fieldname": "total_net_weight",
+   "fieldtype": "Float",
+   "label": "Total Net Weight",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_gross_weight",
+   "fieldtype": "Float",
+   "label": "Total Gross Weight",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_order_item",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Sales Order Item",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2025-10-14 01:59:12.635348",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Commercial Invoice Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

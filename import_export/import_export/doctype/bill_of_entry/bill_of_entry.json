@@ -1,0 +1,517 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-10-14 17:02:50.046333",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "naming_series",
+  "be_number",
+  "be_date",
+  "be_type",
+  "col_break_1",
+  "company",
+  "port_code",
+  "purchase_invoice",
+  "importer_section",
+  "importer_name",
+  "importer_address",
+  "iec_code",
+  "col_break_importer",
+  "importer_gstin",
+  "importer_pan",
+  "ad_code",
+  "supplier_section",
+  "supplier",
+  "supplier_name",
+  "supplier_address",
+  "col_break_supplier",
+  "country_of_origin",
+  "country_of_supply",
+  "shipping_section",
+  "port_of_loading",
+  "port_of_discharge",
+  "bl_awb_no",
+  "col_break_shipping",
+  "bl_awb_date",
+  "vessel_flight_no",
+  "arrival_date",
+  "items_section",
+  "items",
+  "assessment_section",
+  "total_assessable_value",
+  "total_customs_duty",
+  "total_igst",
+  "col_break_assessment",
+  "total_cess",
+  "other_charges",
+  "total_duty_payable",
+  "payment_section",
+  "payment_mode",
+  "payment_reference",
+  "payment_date",
+  "col_break_payment",
+  "challan_no",
+  "challan_date",
+  "customs_section",
+  "filing_date",
+  "assessment_date",
+  "assessment_order_no",
+  "col_break_customs",
+  "out_of_charge_date",
+  "customs_officer",
+  "be_status",
+  "quarantine_section",
+  "quarantine_required",
+  "quarantine_clearance_date",
+  "col_break_quarantine",
+  "test_report_required",
+  "test_report_date",
+  "remarks_section",
+  "remarks",
+  "status_section",
+  "status",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "Bill of Entry Information"
+  },
+  {
+   "default": "BE-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "options": "BE-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "description": "Customs assigned number",
+   "fieldname": "be_number",
+   "fieldtype": "Data",
+   "label": "Bill of Entry Number"
+  },
+  {
+   "default": "Today",
+   "fieldname": "be_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Bill of Entry Date",
+   "reqd": 1
+  },
+  {
+   "default": "For Home Consumption",
+   "fieldname": "be_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type of Bill of Entry",
+   "options": "For Home Consumption\nFor Warehousing\nEx-Bond",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "description": "Indian Customs Port Code",
+   "fieldname": "port_code",
+   "fieldtype": "Data",
+   "label": "Port Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "Purchase Invoice",
+   "options": "Purchase Invoice"
+  },
+  {
+   "fieldname": "importer_section",
+   "fieldtype": "Section Break",
+   "label": "Importer Details"
+  },
+  {
+   "fetch_from": "company.company_name",
+   "fieldname": "importer_name",
+   "fieldtype": "Data",
+   "label": "Importer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "importer_address",
+   "fieldtype": "Small Text",
+   "label": "Importer Address"
+  },
+  {
+   "fieldname": "iec_code",
+   "fieldtype": "Data",
+   "label": "IEC Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_importer",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "importer_gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN"
+  },
+  {
+   "fieldname": "importer_pan",
+   "fieldtype": "Data",
+   "label": "PAN"
+  },
+  {
+   "description": "Authorized Dealer Code",
+   "fieldname": "ad_code",
+   "fieldtype": "Data",
+   "label": "AD Code"
+  },
+  {
+   "fieldname": "supplier_section",
+   "fieldtype": "Section Break",
+   "label": "Supplier/Shipper Details"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "label": "Supplier Name"
+  },
+  {
+   "fieldname": "supplier_address",
+   "fieldtype": "Small Text",
+   "label": "Supplier Address"
+  },
+  {
+   "fieldname": "col_break_supplier",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "label": "Country of Origin",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "country_of_supply",
+   "fieldtype": "Link",
+   "label": "Country of Supply",
+   "options": "Country"
+  },
+  {
+   "fieldname": "shipping_section",
+   "fieldtype": "Section Break",
+   "label": "Shipping Details"
+  },
+  {
+   "fieldname": "port_of_loading",
+   "fieldtype": "Data",
+   "label": "Port of Loading"
+  },
+  {
+   "fieldname": "port_of_discharge",
+   "fieldtype": "Data",
+   "label": "Port of Discharge",
+   "reqd": 1
+  },
+  {
+   "fieldname": "bl_awb_no",
+   "fieldtype": "Data",
+   "label": "B/L or AWB Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_shipping",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bl_awb_date",
+   "fieldtype": "Date",
+   "label": "B/L or AWB Date"
+  },
+  {
+   "fieldname": "vessel_flight_no",
+   "fieldtype": "Data",
+   "label": "Vessel/Flight Number"
+  },
+  {
+   "fieldname": "arrival_date",
+   "fieldtype": "Date",
+   "label": "Date of Arrival"
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "label": "Imported Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Bill of Entry Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessment_section",
+   "fieldtype": "Section Break",
+   "label": "Customs Assessment"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_assessable_value",
+   "fieldtype": "Currency",
+   "label": "Total Assessable Value",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_customs_duty",
+   "fieldtype": "Currency",
+   "label": "Total Customs Duty",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_igst",
+   "fieldtype": "Currency",
+   "label": "Total IGST",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_assessment",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_cess",
+   "fieldtype": "Currency",
+   "label": "Total Cess",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "other_charges",
+   "fieldtype": "Currency",
+   "label": "Other Charges",
+   "options": "INR"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_duty_payable",
+   "fieldtype": "Currency",
+   "label": "Total Duty Payable",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_section",
+   "fieldtype": "Section Break",
+   "label": "Duty Payment"
+  },
+  {
+   "fieldname": "payment_mode",
+   "fieldtype": "Select",
+   "label": "Payment Mode",
+   "options": "Cash\nCredit\nDeferred Payment"
+  },
+  {
+   "fieldname": "payment_reference",
+   "fieldtype": "Data",
+   "label": "Payment Reference"
+  },
+  {
+   "fieldname": "payment_date",
+   "fieldtype": "Date",
+   "label": "Payment Date"
+  },
+  {
+   "fieldname": "col_break_payment",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "challan_no",
+   "fieldtype": "Data",
+   "label": "Challan Number"
+  },
+  {
+   "fieldname": "challan_date",
+   "fieldtype": "Date",
+   "label": "Challan Date"
+  },
+  {
+   "fieldname": "customs_section",
+   "fieldtype": "Section Break",
+   "label": "Customs Processing"
+  },
+  {
+   "fieldname": "filing_date",
+   "fieldtype": "Date",
+   "label": "Filed On"
+  },
+  {
+   "fieldname": "assessment_date",
+   "fieldtype": "Date",
+   "label": "Assessment Date"
+  },
+  {
+   "fieldname": "assessment_order_no",
+   "fieldtype": "Data",
+   "label": "Assessment Order Number"
+  },
+  {
+   "fieldname": "col_break_customs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Date when goods cleared from customs",
+   "fieldname": "out_of_charge_date",
+   "fieldtype": "Date",
+   "label": "Out of Charge Date"
+  },
+  {
+   "fieldname": "customs_officer",
+   "fieldtype": "Data",
+   "label": "Customs Officer"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "be_status",
+   "fieldtype": "Select",
+   "label": "Customs Status",
+   "options": "Draft\nFiled\nAssessed\nDuty Paid\nCleared\nRejected"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "quarantine_section",
+   "fieldtype": "Section Break",
+   "label": "Quarantine/Testing"
+  },
+  {
+   "default": "0",
+   "fieldname": "quarantine_required",
+   "fieldtype": "Check",
+   "label": "Quarantine Required"
+  },
+  {
+   "depends_on": "quarantine_required",
+   "fieldname": "quarantine_clearance_date",
+   "fieldtype": "Date",
+   "label": "Quarantine Clearance Date"
+  },
+  {
+   "fieldname": "col_break_quarantine",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "test_report_required",
+   "fieldtype": "Check",
+   "label": "Test Report Required"
+  },
+  {
+   "depends_on": "test_report_required",
+   "fieldname": "test_report_date",
+   "fieldtype": "Date",
+   "label": "Test Report Date"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "remarks_section",
+   "fieldtype": "Section Break",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text",
+   "label": "Remarks"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nSubmitted\nCleared\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Bill of Entry",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-14 17:05:29.783414",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Bill of Entry",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Admin",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

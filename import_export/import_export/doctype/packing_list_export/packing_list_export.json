@@ -1,0 +1,350 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-10-14 14:39:06.233500",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "naming_series",
+  "company",
+  "packing_date",
+  "col_break_1",
+  "commercial_invoice",
+  "sales_order",
+  "delivery_note",
+  "shipper_section",
+  "shipper_name",
+  "shipper_address",
+  "col_break_shipper",
+  "consignee_name",
+  "consignee_address",
+  "shipping_info_section",
+  "port_of_loading",
+  "port_of_discharge",
+  "vessel_flight_no",
+  "col_break_shipping",
+  "container_stuffing_date",
+  "fcl_lcl",
+  "container_size",
+  "container_section",
+  "total_cartons",
+  "carton_numbers_from",
+  "carton_numbers_to",
+  "col_break_container",
+  "shipping_marks",
+  "packing_method",
+  "cartons_section",
+  "cartons",
+  "totals_section",
+  "total_quantity",
+  "total_net_weight",
+  "total_gross_weight",
+  "col_break_totals",
+  "total_volume_cbm",
+  "total_packages",
+  "status_section",
+  "status",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "Packing List Information"
+  },
+  {
+   "default": "PACK-EXP-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "options": "PACK-EXP-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "packing_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Packing Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commercial_invoice",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Commercial Invoice",
+   "options": "Commercial Invoice Export",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order"
+  },
+  {
+   "fieldname": "delivery_note",
+   "fieldtype": "Link",
+   "label": "Delivery Note",
+   "options": "Delivery Note"
+  },
+  {
+   "fieldname": "shipper_section",
+   "fieldtype": "Section Break",
+   "label": "Shipper/Exporter Details"
+  },
+  {
+   "fetch_from": "commercial_invoice.exporter_name",
+   "fieldname": "shipper_name",
+   "fieldtype": "Data",
+   "label": "Shipper Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.exporter_address",
+   "fieldname": "shipper_address",
+   "fieldtype": "Small Text",
+   "label": "Shipper Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_shipper",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "commercial_invoice.customer_name",
+   "fieldname": "consignee_name",
+   "fieldtype": "Data",
+   "label": "Consignee Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.consignee_address",
+   "fieldname": "consignee_address",
+   "fieldtype": "Small Text",
+   "label": "Consignee Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shipping_info_section",
+   "fieldtype": "Section Break",
+   "label": "Shipping Information"
+  },
+  {
+   "fetch_from": "commercial_invoice.port_of_loading",
+   "fieldname": "port_of_loading",
+   "fieldtype": "Data",
+   "label": "Port of Loading"
+  },
+  {
+   "fetch_from": "commercial_invoice.port_of_discharge",
+   "fieldname": "port_of_discharge",
+   "fieldtype": "Data",
+   "label": "Port of Discharge"
+  },
+  {
+   "fetch_from": "commercial_invoice.vessel_flight_no",
+   "fieldname": "vessel_flight_no",
+   "fieldtype": "Data",
+   "label": "Vessel/Flight No"
+  },
+  {
+   "fieldname": "col_break_shipping",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "container_stuffing_date",
+   "fieldtype": "Date",
+   "label": "Container Stuffing Date"
+  },
+  {
+   "fieldname": "fcl_lcl",
+   "fieldtype": "Select",
+   "label": "FCL/LCL",
+   "options": "FCL (Full Container Load)\nLCL (Less than Container Load)"
+  },
+  {
+   "fieldname": "container_size",
+   "fieldtype": "Select",
+   "label": "Container Size",
+   "options": "20ft\n40ft\n40ft HC\n45ft HC"
+  },
+  {
+   "fieldname": "container_section",
+   "fieldtype": "Section Break",
+   "label": "Container Details"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_cartons",
+   "fieldtype": "Int",
+   "label": "Total Number of Cartons",
+   "read_only": 1
+  },
+  {
+   "fieldname": "carton_numbers_from",
+   "fieldtype": "Int",
+   "label": "Carton Numbers From"
+  },
+  {
+   "fieldname": "carton_numbers_to",
+   "fieldtype": "Int",
+   "label": "Carton Numbers To"
+  },
+  {
+   "fieldname": "col_break_container",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "commercial_invoice.shipping_marks",
+   "fieldname": "shipping_marks",
+   "fieldtype": "Small Text",
+   "label": "Shipping Marks"
+  },
+  {
+   "fieldname": "packing_method",
+   "fieldtype": "Select",
+   "label": "Packing Method",
+   "options": "Carton\nWooden Crate\nPallet\nBag\nBundle\nOther"
+  },
+  {
+   "fieldname": "cartons_section",
+   "fieldtype": "Section Break",
+   "label": "Carton-wise Breakdown"
+  },
+  {
+   "description": "Detailed carton-wise packing",
+   "fieldname": "cartons",
+   "fieldtype": "Table",
+   "label": "Cartons",
+   "options": "Packing List Carton"
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Total Summary"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_net_weight",
+   "fieldtype": "Float",
+   "label": "Total Net Weight (Kg)",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_gross_weight",
+   "fieldtype": "Float",
+   "label": "Total Gross Weight (Kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_volume_cbm",
+   "fieldtype": "Float",
+   "label": "Total Volume (CBM)",
+   "read_only": 1
+  },
+  {
+   "description": "Total number of cartons/packages",
+   "fieldname": "total_packages",
+   "fieldtype": "Int",
+   "label": "Total Packages",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nPacked\nShipped\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Packing List Export",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-14 16:33:29.138764",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Packing List Export",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Admin",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

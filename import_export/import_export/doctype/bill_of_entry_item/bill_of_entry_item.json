@@ -1,0 +1,107 @@
+{
+    "doctype": "DocType",
+    "owner": "Administrator",
+    "module": "Import Export",
+    "name": "Bill of Entry Item",
+    "istable": 1,
+    "fields": [
+      {
+        "fieldname": "item_code",
+        "label": "Item Code",
+        "fieldtype": "Link",
+        "options": "Item",
+        "in_list_view": 1,
+        "columns": 2
+      },
+      {
+        "fieldname": "item_name",
+        "label": "Item Name",
+        "fieldtype": "Data",
+        "fetch_from": "item_code.item_name",
+        "read_only": 1
+      },
+      {
+        "fieldname": "description",
+        "label": "Description",
+        "fieldtype": "Text"
+      },
+      {
+        "fieldname": "hs_code",
+        "label": "HS Code (8-digit)",
+        "fieldtype": "Data",
+        "reqd": 1,
+        "in_list_view": 1,
+        "columns": 1
+      },
+      {
+        "fieldname": "quantity",
+        "label": "Quantity",
+        "fieldtype": "Float",
+        "reqd": 1,
+        "in_list_view": 1,
+        "columns": 1
+      },
+      {
+        "fieldname": "uom",
+        "label": "UOM",
+        "fieldtype": "Link",
+        "options": "UOM",
+        "in_list_view": 1,
+        "columns": 1
+      },
+      {
+        "fieldname": "assessable_value",
+        "label": "Assessable Value",
+        "fieldtype": "Currency",
+        "options": "INR",
+        "reqd": 1,
+        "in_list_view": 1,
+        "columns": 1
+      },
+      {
+        "fieldname": "customs_duty_rate",
+        "label": "Customs Duty Rate (%)",
+        "fieldtype": "Percent"
+      },
+      {
+        "fieldname": "customs_duty",
+        "label": "Customs Duty",
+        "fieldtype": "Currency",
+        "options": "INR",
+        "read_only": 1
+      },
+      {
+        "fieldname": "igst_rate",
+        "label": "IGST Rate (%)",
+        "fieldtype": "Percent"
+      },
+      {
+        "fieldname": "igst_amount",
+        "label": "IGST Amount",
+        "fieldtype": "Currency",
+        "options": "INR",
+        "read_only": 1
+      },
+      {
+        "fieldname": "cess_rate",
+        "label": "Cess Rate (%)",
+        "fieldtype": "Percent"
+      },
+      {
+        "fieldname": "cess_amount",
+        "label": "Cess Amount",
+        "fieldtype": "Currency",
+        "options": "INR",
+        "read_only": 1
+      },
+      {
+        "fieldname": "total_duty",
+        "label": "Total Duty",
+        "fieldtype": "Currency",
+        "options": "INR",
+        "read_only": 1,
+        "in_list_view": 1,
+        "columns": 1
+      }
+    ]
+  }

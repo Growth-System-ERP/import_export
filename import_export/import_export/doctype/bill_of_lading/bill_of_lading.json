@@ -1,0 +1,518 @@
+{
+ "actions": [],
+ "autoname": "field:bl_no",
+ "creation": "2025-10-14 17:02:50.401837",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "bl_type",
+  "bl_no",
+  "bl_date",
+  "col_break_1",
+  "company",
+  "commercial_invoice",
+  "shipment",
+  "carrier_section",
+  "carrier_name",
+  "vessel_flight_name",
+  "vessel_flight_no",
+  "col_break_carrier",
+  "voyage_no",
+  "mawb_no",
+  "hawb_no",
+  "shipper_section",
+  "shipper_name",
+  "shipper_address",
+  "col_break_shipper",
+  "shipper_contact",
+  "shipper_email",
+  "consignee_section",
+  "consignee_name",
+  "consignee_address",
+  "col_break_consignee",
+  "consignee_contact",
+  "consignee_email",
+  "notify_party_section",
+  "notify_party_name",
+  "notify_party_address",
+  "col_break_notify",
+  "notify_party_contact",
+  "notify_party_email",
+  "routing_section",
+  "port_of_loading",
+  "port_of_discharge",
+  "place_of_receipt",
+  "col_break_routing",
+  "final_destination",
+  "place_of_delivery",
+  "departure_date",
+  "container_section",
+  "containers",
+  "cargo_section",
+  "goods_description",
+  "marks_and_numbers",
+  "col_break_cargo",
+  "total_packages",
+  "package_type",
+  "total_gross_weight",
+  "total_volume",
+  "freight_section",
+  "freight_terms",
+  "freight_charges",
+  "col_break_freight",
+  "currency",
+  "other_charges",
+  "originals_section",
+  "no_of_originals",
+  "issued_at",
+  "issued_date",
+  "col_break_originals",
+  "authorized_signatory",
+  "signature_date",
+  "status_section",
+  "bl_status",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "B/L Information"
+  },
+  {
+   "default": "Ocean Bill of Lading",
+   "fieldname": "bl_type",
+   "fieldtype": "Select",
+   "label": "Document Type",
+   "options": "Ocean Bill of Lading\nAir Waybill\nMultimodal Transport Document",
+   "reqd": 1
+  },
+  {
+   "fieldname": "bl_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "B/L or AWB Number",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "bl_date",
+   "fieldtype": "Date",
+   "label": "B/L or AWB Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "commercial_invoice",
+   "fieldtype": "Link",
+   "label": "Commercial Invoice",
+   "options": "Commercial Invoice Export",
+   "reqd": 1
+  },
+  {
+   "fieldname": "shipment",
+   "fieldtype": "Link",
+   "label": "Shipment Reference",
+   "options": "Shipment"
+  },
+  {
+   "fieldname": "carrier_section",
+   "fieldtype": "Section Break",
+   "label": "Carrier Details"
+  },
+  {
+   "description": "Shipping Line or Airline",
+   "fieldname": "carrier_name",
+   "fieldtype": "Data",
+   "label": "Carrier Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vessel_flight_name",
+   "fieldtype": "Data",
+   "label": "Vessel/Flight Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vessel_flight_no",
+   "fieldtype": "Data",
+   "label": "Vessel/Flight Number"
+  },
+  {
+   "fieldname": "col_break_carrier",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.bl_type=='Ocean Bill of Lading'",
+   "fieldname": "voyage_no",
+   "fieldtype": "Data",
+   "label": "Voyage Number"
+  },
+  {
+   "depends_on": "eval:doc.bl_type=='Air Waybill'",
+   "fieldname": "mawb_no",
+   "fieldtype": "Data",
+   "label": "Master AWB Number"
+  },
+  {
+   "depends_on": "eval:doc.bl_type=='Air Waybill'",
+   "fieldname": "hawb_no",
+   "fieldtype": "Data",
+   "label": "House AWB Number"
+  },
+  {
+   "fieldname": "shipper_section",
+   "fieldtype": "Section Break",
+   "label": "Shipper (Exporter) Details"
+  },
+  {
+   "fetch_from": "commercial_invoice.exporter_name",
+   "fieldname": "shipper_name",
+   "fieldtype": "Data",
+   "label": "Shipper Name",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.exporter_address",
+   "fieldname": "shipper_address",
+   "fieldtype": "Small Text",
+   "label": "Shipper Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_shipper",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipper_contact",
+   "fieldtype": "Data",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "shipper_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "consignee_section",
+   "fieldtype": "Section Break",
+   "label": "Consignee (Buyer) Details"
+  },
+  {
+   "fetch_from": "commercial_invoice.customer_name",
+   "fieldname": "consignee_name",
+   "fieldtype": "Data",
+   "label": "Consignee Name",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.consignee_address",
+   "fieldname": "consignee_address",
+   "fieldtype": "Small Text",
+   "label": "Consignee Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_consignee",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consignee_contact",
+   "fieldtype": "Data",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "consignee_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "notify_party_section",
+   "fieldtype": "Section Break",
+   "label": "Notify Party"
+  },
+  {
+   "fetch_from": "commercial_invoice.notify_party_name",
+   "fieldname": "notify_party_name",
+   "fieldtype": "Data",
+   "label": "Notify Party Name"
+  },
+  {
+   "fetch_from": "commercial_invoice.notify_party_address",
+   "fieldname": "notify_party_address",
+   "fieldtype": "Small Text",
+   "label": "Notify Party Address"
+  },
+  {
+   "fieldname": "col_break_notify",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notify_party_contact",
+   "fieldtype": "Data",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "notify_party_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "routing_section",
+   "fieldtype": "Section Break",
+   "label": "Routing Information"
+  },
+  {
+   "fetch_from": "commercial_invoice.port_of_loading",
+   "fieldname": "port_of_loading",
+   "fieldtype": "Data",
+   "label": "Port of Loading",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.port_of_discharge",
+   "fieldname": "port_of_discharge",
+   "fieldtype": "Data",
+   "label": "Port of Discharge",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.place_of_receipt",
+   "fieldname": "place_of_receipt",
+   "fieldtype": "Data",
+   "label": "Place of Receipt"
+  },
+  {
+   "fieldname": "col_break_routing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "commercial_invoice.final_destination",
+   "fieldname": "final_destination",
+   "fieldtype": "Data",
+   "label": "Final Destination"
+  },
+  {
+   "fieldname": "place_of_delivery",
+   "fieldtype": "Data",
+   "label": "Place of Delivery"
+  },
+  {
+   "fieldname": "departure_date",
+   "fieldtype": "Date",
+   "label": "Date of Departure"
+  },
+  {
+   "fieldname": "container_section",
+   "fieldtype": "Section Break",
+   "label": "Container & Cargo Details"
+  },
+  {
+   "fieldname": "containers",
+   "fieldtype": "Table",
+   "label": "Containers",
+   "options": "Bill of Lading Container"
+  },
+  {
+   "fieldname": "cargo_section",
+   "fieldtype": "Section Break",
+   "label": "Cargo Description"
+  },
+  {
+   "fieldname": "goods_description",
+   "fieldtype": "Text Editor",
+   "label": "Description of Goods",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.shipping_marks",
+   "fieldname": "marks_and_numbers",
+   "fieldtype": "Small Text",
+   "label": "Marks & Numbers"
+  },
+  {
+   "fieldname": "col_break_cargo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_packages",
+   "fieldtype": "Int",
+   "label": "Total Number of Packages",
+   "reqd": 1
+  },
+  {
+   "fieldname": "package_type",
+   "fieldtype": "Select",
+   "label": "Package Type",
+   "options": "Cartons\nPallets\nCrates\nBags\nBundles\nOther"
+  },
+  {
+   "fieldname": "total_gross_weight",
+   "fieldtype": "Float",
+   "label": "Total Gross Weight (Kg)"
+  },
+  {
+   "fieldname": "total_volume",
+   "fieldtype": "Float",
+   "label": "Total Volume (CBM)"
+  },
+  {
+   "fieldname": "freight_section",
+   "fieldtype": "Section Break",
+   "label": "Freight Terms"
+  },
+  {
+   "default": "Prepaid",
+   "fieldname": "freight_terms",
+   "fieldtype": "Select",
+   "label": "Freight Terms",
+   "options": "Prepaid\nCollect\nPrepaid at Destination",
+   "reqd": 1
+  },
+  {
+   "fieldname": "freight_charges",
+   "fieldtype": "Currency",
+   "label": "Freight Charges",
+   "options": "currency"
+  },
+  {
+   "fieldname": "col_break_freight",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "commercial_invoice.currency",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "other_charges",
+   "fieldtype": "Currency",
+   "label": "Other Charges",
+   "options": "currency"
+  },
+  {
+   "fieldname": "originals_section",
+   "fieldtype": "Section Break",
+   "label": "Original Documents"
+  },
+  {
+   "default": "3",
+   "fieldname": "no_of_originals",
+   "fieldtype": "Select",
+   "label": "Number of Originals Issued",
+   "options": "1\n2\n3"
+  },
+  {
+   "fieldname": "issued_at",
+   "fieldtype": "Data",
+   "label": "Issued At"
+  },
+  {
+   "default": "Today",
+   "fieldname": "issued_date",
+   "fieldtype": "Date",
+   "label": "Issued Date"
+  },
+  {
+   "fieldname": "col_break_originals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "authorized_signatory",
+   "fieldtype": "Data",
+   "label": "Authorized Signatory"
+  },
+  {
+   "default": "Today",
+   "fieldname": "signature_date",
+   "fieldtype": "Date",
+   "label": "Signature Date"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "bl_status",
+   "fieldtype": "Select",
+   "label": "B/L Status",
+   "options": "Draft\nIssued\nSurrendered\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Bill of Lading",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-14 17:04:47.587725",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Bill of Lading",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Admin",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,388 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-10-14 01:52:40.598292",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "naming_series",
+  "certificate_type",
+  "certificate_no",
+  "certificate_date",
+  "col_break_1",
+  "commercial_invoice",
+  "company",
+  "validity_period",
+  "valid_until",
+  "exporter_section",
+  "exporter_name",
+  "exporter_address",
+  "iec_code",
+  "col_break_exporter",
+  "country_of_export",
+  "port_of_loading",
+  "consignee_section",
+  "consignee_name",
+  "consignee_address",
+  "col_break_consignee",
+  "destination_country",
+  "port_of_discharge",
+  "products_section",
+  "products",
+  "declaration_section",
+  "origin_criteria",
+  "remarks",
+  "col_break_declaration",
+  "declaration_statement",
+  "attestation_section",
+  "chamber_name",
+  "chamber_location",
+  "attestation_submitted_date",
+  "col_break_attestation",
+  "attestation_status",
+  "attested_date",
+  "attestation_number",
+  "signatory_section",
+  "authorized_signatory",
+  "signatory_designation",
+  "col_break_signatory",
+  "signature_date",
+  "signature_place",
+  "status_section",
+  "status",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "Certificate Information"
+  },
+  {
+   "default": "COO-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "options": "COO-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "default": "Generic",
+   "fieldname": "certificate_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Certificate Type",
+   "options": "Generic\nGSP Form A\nSAPTA\nSAFTA\nASEAN\nCountry-Specific",
+   "reqd": 1
+  },
+  {
+   "fieldname": "certificate_no",
+   "fieldtype": "Data",
+   "label": "Certificate Number",
+   "unique": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "certificate_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Certificate Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commercial_invoice",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Commercial Invoice",
+   "options": "Commercial Invoice Export",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "default": "365",
+   "fieldname": "validity_period",
+   "fieldtype": "Int",
+   "label": "Validity Period (Days)"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Date",
+   "label": "Valid Until",
+   "read_only": 1
+  },
+  {
+   "fieldname": "exporter_section",
+   "fieldtype": "Section Break",
+   "label": "Exporter Details"
+  },
+  {
+   "fetch_from": "commercial_invoice.exporter_name",
+   "fieldname": "exporter_name",
+   "fieldtype": "Data",
+   "label": "Exporter Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.exporter_address",
+   "fieldname": "exporter_address",
+   "fieldtype": "Small Text",
+   "label": "Exporter Address",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.iec_code",
+   "fieldname": "iec_code",
+   "fieldtype": "Data",
+   "label": "IEC Code"
+  },
+  {
+   "fieldname": "col_break_exporter",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "commercial_invoice.country_of_origin",
+   "fieldname": "country_of_export",
+   "fieldtype": "Link",
+   "label": "Country of Export",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.port_of_loading",
+   "fieldname": "port_of_loading",
+   "fieldtype": "Data",
+   "label": "Port of Loading"
+  },
+  {
+   "fieldname": "consignee_section",
+   "fieldtype": "Section Break",
+   "label": "Consignee Details"
+  },
+  {
+   "fetch_from": "commercial_invoice.customer_name",
+   "fieldname": "consignee_name",
+   "fieldtype": "Data",
+   "label": "Consignee Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.consignee_address",
+   "fieldname": "consignee_address",
+   "fieldtype": "Small Text",
+   "label": "Consignee Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_consignee",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "commercial_invoice.consignee_country",
+   "fieldname": "destination_country",
+   "fieldtype": "Link",
+   "label": "Country of Destination",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "commercial_invoice.port_of_discharge",
+   "fieldname": "port_of_discharge",
+   "fieldtype": "Data",
+   "label": "Port of Discharge"
+  },
+  {
+   "fieldname": "products_section",
+   "fieldtype": "Section Break",
+   "label": "Product Details"
+  },
+  {
+   "fieldname": "products",
+   "fieldtype": "Table",
+   "label": "Products",
+   "options": "Certificate of Origin Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "declaration_section",
+   "fieldtype": "Section Break",
+   "label": "Origin Declaration"
+  },
+  {
+   "description": "Basis for claiming origin",
+   "fieldname": "origin_criteria",
+   "fieldtype": "Select",
+   "label": "Origin Criteria",
+   "options": "Wholly Obtained\nSubstantially Transformed\nValue Addition\nChange in Tariff Classification"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "col_break_declaration",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "<p>The undersigned hereby declares that the above details and statement are correct, that all the goods were produced/manufactured in [Country] and that they comply with the origin requirements specified for those goods in the [Agreement Name] for the goods exported to [Destination Country].</p>",
+   "fieldname": "declaration_statement",
+   "fieldtype": "Text Editor",
+   "label": "Declaration Statement"
+  },
+  {
+   "fieldname": "attestation_section",
+   "fieldtype": "Section Break",
+   "label": "Chamber of Commerce Attestation"
+  },
+  {
+   "description": "Name of Chamber of Commerce",
+   "fieldname": "chamber_name",
+   "fieldtype": "Data",
+   "label": "Chamber of Commerce"
+  },
+  {
+   "fieldname": "chamber_location",
+   "fieldtype": "Data",
+   "label": "Chamber Location"
+  },
+  {
+   "fieldname": "attestation_submitted_date",
+   "fieldtype": "Date",
+   "label": "Submitted for Attestation On"
+  },
+  {
+   "fieldname": "col_break_attestation",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Not Submitted",
+   "fieldname": "attestation_status",
+   "fieldtype": "Select",
+   "label": "Attestation Status",
+   "options": "Not Submitted\nSubmitted\nAttested\nRejected",
+   "search_index": 1
+  },
+  {
+   "fieldname": "attested_date",
+   "fieldtype": "Date",
+   "label": "Attested On"
+  },
+  {
+   "fieldname": "attestation_number",
+   "fieldtype": "Data",
+   "label": "Attestation Number"
+  },
+  {
+   "fieldname": "signatory_section",
+   "fieldtype": "Section Break",
+   "label": "Authorized Signatory"
+  },
+  {
+   "fieldname": "authorized_signatory",
+   "fieldtype": "Data",
+   "label": "Authorized Signatory Name"
+  },
+  {
+   "fieldname": "signatory_designation",
+   "fieldtype": "Data",
+   "label": "Designation"
+  },
+  {
+   "fieldname": "col_break_signatory",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "signature_date",
+   "fieldtype": "Date",
+   "label": "Signature Date"
+  },
+  {
+   "fieldname": "signature_place",
+   "fieldtype": "Data",
+   "label": "Place of Signature"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nSubmitted\nAttested\nExpired\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Certificate of Origin",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-14 16:33:52.840432",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Certificate of Origin",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Admin",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,731 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-10-14 01:52:40.257386",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "naming_series",
+  "company",
+  "invoice_date",
+  "invoice_type",
+  "col_break_1",
+  "sales_order",
+  "sales_invoice",
+  "currency",
+  "conversion_rate",
+  "exporter_section",
+  "exporter_name",
+  "exporter_address_name",
+  "exporter_address",
+  "iec_code",
+  "exporter_gstin",
+  "col_break_exp",
+  "exporter_pan",
+  "exporter_email",
+  "exporter_phone",
+  "consignee_section",
+  "customer",
+  "customer_name",
+  "consignee_address_name",
+  "consignee_address",
+  "consignee_country",
+  "col_break_consignee",
+  "consignee_tax_id",
+  "consignee_email",
+  "consignee_phone",
+  "notify_party_section",
+  "notify_party_name",
+  "notify_party_address",
+  "col_break_notify",
+  "notify_party_email",
+  "notify_party_phone",
+  "shipping_section",
+  "country_of_origin",
+  "port_of_loading",
+  "port_of_discharge",
+  "final_destination",
+  "place_of_receipt",
+  "col_break_shipping",
+  "pre_carriage_by",
+  "vessel_flight_no",
+  "bill_of_lading_no",
+  "bl_date",
+  "container_section",
+  "container_nos",
+  "seal_nos",
+  "col_break_container",
+  "shipping_marks",
+  "payment_section",
+  "payment_terms",
+  "incoterm",
+  "named_place",
+  "col_break_payment",
+  "lc_number",
+  "lc_date",
+  "lc_issuing_bank",
+  "insurance_section",
+  "insurance_required",
+  "insurance_policy_no",
+  "insurance_amount",
+  "col_break_insurance",
+  "insurance_company",
+  "items_section",
+  "items",
+  "totals_section",
+  "total_quantity",
+  "total_net_weight",
+  "total_gross_weight",
+  "total_volume_cbm",
+  "col_break_totals",
+  "subtotal",
+  "freight_charges",
+  "insurance_charges",
+  "other_charges",
+  "grand_total_section",
+  "total_fob_value",
+  "total_cif_value",
+  "col_break_grand",
+  "grand_total",
+  "in_words",
+  "bank_section",
+  "beneficiary_bank",
+  "bank_address",
+  "col_break_bank",
+  "swift_code",
+  "account_number",
+  "iban",
+  "declaration_section",
+  "declaration_text",
+  "authorized_signatory",
+  "signature_date",
+  "status_section",
+  "status",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice Information"
+  },
+  {
+   "default": "CINV-EXP-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CINV-EXP-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "invoice_date",
+   "fieldtype": "Date",
+   "label": "Invoice Date",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Commercial",
+   "fieldname": "invoice_type",
+   "fieldtype": "Select",
+   "label": "Invoice Type",
+   "options": "Commercial\nProforma\nCustoms",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sales Order",
+   "options": "Sales Order"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "conversion_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate",
+   "precision": "9",
+   "reqd": 1
+  },
+  {
+   "fieldname": "exporter_section",
+   "fieldtype": "Section Break",
+   "label": "Exporter Details"
+  },
+  {
+   "fetch_from": "company.company_name",
+   "fieldname": "exporter_name",
+   "fieldtype": "Data",
+   "label": "Exporter Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "exporter_address_name",
+   "fieldtype": "Link",
+   "label": "Exporter Address",
+   "options": "Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "exporter_address",
+   "fieldtype": "Small Text",
+   "label": "Exporter Address Display",
+   "read_only": 1
+  },
+  {
+   "description": "Importer Exporter Code",
+   "fieldname": "iec_code",
+   "fieldtype": "Data",
+   "label": "IEC Code"
+  },
+  {
+   "fetch_from": "exporter_address_name.gstin",
+   "fieldname": "exporter_gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_exp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "exporter_pan",
+   "fieldtype": "Data",
+   "label": "PAN"
+  },
+  {
+   "fieldname": "exporter_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "exporter_phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "consignee_section",
+   "fieldtype": "Section Break",
+   "label": "Consignee (Buyer) Details"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consignee_address_name",
+   "fieldtype": "Link",
+   "label": "Consignee Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "consignee_address",
+   "fieldtype": "Small Text",
+   "label": "Consignee Address Display",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "consignee_address_name.country",
+   "fieldname": "consignee_country",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Country",
+   "options": "Country",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "col_break_consignee",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consignee_tax_id",
+   "fieldtype": "Data",
+   "label": "Tax ID/VAT Number"
+  },
+  {
+   "fieldname": "consignee_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "consignee_phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "notify_party_section",
+   "fieldtype": "Section Break",
+   "label": "Notify Party (if different from Consignee)"
+  },
+  {
+   "fieldname": "notify_party_name",
+   "fieldtype": "Data",
+   "label": "Notify Party Name"
+  },
+  {
+   "fieldname": "notify_party_address",
+   "fieldtype": "Small Text",
+   "label": "Notify Party Address"
+  },
+  {
+   "fieldname": "col_break_notify",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notify_party_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "notify_party_phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "shipping_section",
+   "fieldtype": "Section Break",
+   "label": "Shipping Information"
+  },
+  {
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "label": "Country of Origin of Goods",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "port_of_loading",
+   "fieldtype": "Data",
+   "label": "Port of Loading",
+   "reqd": 1
+  },
+  {
+   "fieldname": "port_of_discharge",
+   "fieldtype": "Data",
+   "label": "Port of Discharge",
+   "reqd": 1
+  },
+  {
+   "fieldname": "final_destination",
+   "fieldtype": "Data",
+   "label": "Final Destination"
+  },
+  {
+   "fieldname": "place_of_receipt",
+   "fieldtype": "Data",
+   "label": "Place of Receipt"
+  },
+  {
+   "fieldname": "col_break_shipping",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pre_carriage_by",
+   "fieldtype": "Data",
+   "label": "Pre-carriage By"
+  },
+  {
+   "fieldname": "vessel_flight_no",
+   "fieldtype": "Data",
+   "label": "Vessel/Flight No"
+  },
+  {
+   "fieldname": "bill_of_lading_no",
+   "fieldtype": "Data",
+   "label": "Bill of Lading/AWB No"
+  },
+  {
+   "fieldname": "bl_date",
+   "fieldtype": "Date",
+   "label": "B/L or AWB Date"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "container_section",
+   "fieldtype": "Section Break",
+   "label": "Container Information"
+  },
+  {
+   "description": "Enter multiple container numbers separated by commas",
+   "fieldname": "container_nos",
+   "fieldtype": "Small Text",
+   "label": "Container Number(s)"
+  },
+  {
+   "fieldname": "seal_nos",
+   "fieldtype": "Small Text",
+   "label": "Seal Number(s)"
+  },
+  {
+   "fieldname": "col_break_container",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipping_marks",
+   "fieldtype": "Small Text",
+   "label": "Shipping Marks & Numbers"
+  },
+  {
+   "fieldname": "payment_section",
+   "fieldtype": "Section Break",
+   "label": "Payment Terms"
+  },
+  {
+   "default": "Letter of Credit (LC)",
+   "fieldname": "payment_terms",
+   "fieldtype": "Select",
+   "label": "Payment Terms",
+   "options": "Letter of Credit (LC)\nTelegraphic Transfer (TT)\nAdvance Payment\nDocument Against Payment (D/P)\nDocument Against Acceptance (D/A)\nOpen Account",
+   "reqd": 1
+  },
+  {
+   "default": "FOB",
+   "fieldname": "incoterm",
+   "fieldtype": "Select",
+   "label": "Incoterm",
+   "options": "FOB\nCIF\nCFR\nEXW\nFCA\nCPT\nCIP\nDAP\nDPU\nDDP",
+   "reqd": 1
+  },
+  {
+   "description": "Place specified in Incoterm (e.g., FOB Mumbai)",
+   "fieldname": "named_place",
+   "fieldtype": "Data",
+   "label": "Named Place"
+  },
+  {
+   "fieldname": "col_break_payment",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.payment_terms=='Letter of Credit (LC)'",
+   "fieldname": "lc_number",
+   "fieldtype": "Data",
+   "label": "LC Number"
+  },
+  {
+   "depends_on": "eval:doc.payment_terms=='Letter of Credit (LC)'",
+   "fieldname": "lc_date",
+   "fieldtype": "Date",
+   "label": "LC Date"
+  },
+  {
+   "depends_on": "eval:doc.payment_terms=='Letter of Credit (LC)'",
+   "fieldname": "lc_issuing_bank",
+   "fieldtype": "Data",
+   "label": "LC Issuing Bank"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.incoterm=='CIF' || doc.incoterm=='CIP'",
+   "fieldname": "insurance_section",
+   "fieldtype": "Section Break",
+   "label": "Insurance Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "insurance_required",
+   "fieldtype": "Check",
+   "label": "Insurance Required"
+  },
+  {
+   "depends_on": "insurance_required",
+   "fieldname": "insurance_policy_no",
+   "fieldtype": "Data",
+   "label": "Insurance Policy Number"
+  },
+  {
+   "depends_on": "insurance_required",
+   "fieldname": "insurance_amount",
+   "fieldtype": "Currency",
+   "label": "Insurance Amount",
+   "options": "currency"
+  },
+  {
+   "fieldname": "col_break_insurance",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "insurance_required",
+   "fieldname": "insurance_company",
+   "fieldtype": "Data",
+   "label": "Insurance Company"
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Commercial Invoice Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_net_weight",
+   "fieldtype": "Float",
+   "label": "Total Net Weight (Kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_gross_weight",
+   "fieldtype": "Float",
+   "label": "Total Gross Weight (Kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_volume_cbm",
+   "fieldtype": "Float",
+   "label": "Total Volume (CBM)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "subtotal",
+   "fieldtype": "Currency",
+   "label": "Subtotal",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "freight_charges",
+   "fieldtype": "Currency",
+   "label": "Freight Charges",
+   "options": "currency"
+  },
+  {
+   "depends_on": "eval:doc.incoterm=='CIF' || doc.incoterm=='CIP'",
+   "fieldname": "insurance_charges",
+   "fieldtype": "Currency",
+   "label": "Insurance Charges",
+   "options": "currency"
+  },
+  {
+   "fieldname": "other_charges",
+   "fieldtype": "Currency",
+   "label": "Other Charges",
+   "options": "currency"
+  },
+  {
+   "fieldname": "grand_total_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_fob_value",
+   "fieldtype": "Currency",
+   "label": "Total FOB Value",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "depends_on": "eval:doc.incoterm=='CIF'",
+   "fieldname": "total_cif_value",
+   "fieldtype": "Currency",
+   "label": "Total CIF Value",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_grand",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "in_words",
+   "fieldtype": "Data",
+   "label": "Amount In Words",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bank_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Details for Payment"
+  },
+  {
+   "fieldname": "beneficiary_bank",
+   "fieldtype": "Data",
+   "label": "Beneficiary Bank Name"
+  },
+  {
+   "fieldname": "bank_address",
+   "fieldtype": "Small Text",
+   "label": "Bank Address"
+  },
+  {
+   "fieldname": "col_break_bank",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "swift_code",
+   "fieldtype": "Data",
+   "label": "SWIFT/BIC Code"
+  },
+  {
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number"
+  },
+  {
+   "fieldname": "iban",
+   "fieldtype": "Data",
+   "label": "IBAN"
+  },
+  {
+   "fieldname": "declaration_section",
+   "fieldtype": "Section Break",
+   "label": "Declarations"
+  },
+  {
+   "default": "<p>We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</p>",
+   "fieldname": "declaration_text",
+   "fieldtype": "Text Editor",
+   "label": "Declaration"
+  },
+  {
+   "fieldname": "authorized_signatory",
+   "fieldtype": "Data",
+   "label": "Authorized Signatory"
+  },
+  {
+   "default": "Today",
+   "fieldname": "signature_date",
+   "fieldtype": "Date",
+   "label": "Signature Date"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nSubmitted\nShipped\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Commercial Invoice Export",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-14 16:32:59.937798",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Commercial Invoice Export",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Admin",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
