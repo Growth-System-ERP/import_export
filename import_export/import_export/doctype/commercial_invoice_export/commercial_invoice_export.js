@@ -4,19 +4,19 @@ frappe.ui.form.on('Commercial Invoice Export', {
 
             // Create Packing List button
             check_and_add_button(frm, 'Packing List Export', 'commercial_invoice',
-                                 'Create Packing List', create_packing_list);
+                                 'Packing List', create_packing_list);
 
             // Create Certificate of Origin button
             check_and_add_button(frm, 'Certificate of Origin', 'commercial_invoice',
-                                 'Create Certificate of Origin', create_coo);
+                                 'Certificate of Origin', create_coo);
 
             // Create Shipping Bill button
             check_and_add_button(frm, 'Shipping Bill', 'commercial_invoice',
-                                 'Create Shipping Bill', create_shipping_bill);
+                                 'Shipping Bill', create_shipping_bill);
 
             // Create Bill of Lading button
             check_and_add_button(frm, 'Bill of Lading', 'bl_no',
-                                 'Create Bill of Lading', create_bill_of_lading);
+                                 'Bill of Lading', create_bill_of_lading);
 
             // Show related documents section
             show_related_documents(frm);

@@ -97,3 +97,43 @@ def update_attestation_status(certificate_name, status, attestation_number=None,
     doc.save()
     
     return {"message": "Attestation status updated successfully"}
+
+@frappe.whitelist()
+def create_from_commercial_invoice(commercial_invoice):
+    """Auto-create COO from CI"""
+
+    ci = frappe.get_doc("Commercial Invoice Export", commercial_invoice)
+
+    coo = frappe.new_doc("Certificate of Origin")
+    coo.commercial_invoice = ci.name
+    coo.company = ci.company
+    coo.certificate_type = "Generic"
+
+    # Copy exporter details
+    coo.exporter_name = ci.exporter_name
+    coo.exporter_address = ci.exporter_address
+    coo.iec_code = ci.iec_code
+    coo.country_of_export = ci.country_of_origin
+    coo.port_of_loading = ci.port_of_loading
+
+    # Copy consignee
+    coo.consignee_name = ci.customer_name
+    coo.consignee_address = ci.consignee_address
+    coo.destination_country = ci.consignee_country
+    coo.port_of_discharge = ci.port_of_discharge
+
+    # Auto-populate products from CI items
+    for item in ci.items:
+        coo.append("products", {
+            "item_code": item.item_code,
+            "item_name": item.item_name,
+            "description": item.description,
+            "hs_code": item.hs_code,
+            "quantity": item.qty,
+            "uom": item.uom,
+            "country_of_origin": item.country_of_origin or ci.country_of_origin,
+            "value": item.amount
+        })
+
+    coo.insert()
+    return coo.name

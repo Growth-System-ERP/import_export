@@ -96,12 +96,6 @@ doctype_js = {
 # before_app_uninstall = "import_export.utils.before_app_uninstall"
 # after_app_uninstall = "import_export.utils.after_app_uninstall"
 
-# Desk Notifications
-# ------------------
-# See frappe.core.notifications.get_notification_config
-
-# notification_config = "import_export.notifications.get_notification_config"
-
 # Permissions
 # -----------
 # Permissions evaluated in scripted ways
@@ -127,33 +121,30 @@ doctype_js = {
 # Hook on document methods and events
 
 doc_events = {
-	"Item": {
-		"validate": "import_export.packing_system.utils.calc_vol"
-	},
-	"Pick List": {
-        # "validate": "import_export.packing_system.main_controller.validate_carton_assignment"
+    "Item": {
+        "validate": "import_export.packing_system.utils.calc_vol"
+    },
+    "Sales Order": {
+        "validate": "import_export.import_export.custom_script.sales_order.sales_order.sales_order_validate",
+    },
+    "Pick List": {
+        "validate": "import_export.import_export.custom_script.pick_list.pick_list.pick_list_validate"
     }
 }
 
-# Scheduled Tasks
-# ---------------
+# Desk Notifications
+# ------------------
+# See frappe.core.notifications.get_notification_config
 
+# Notification Config (for future enhancement)
+notification_config = "import_export.import_export.notifications.get_notification_config"
+
+# Scheduled Tasks (for future enhancement - certificate expiry alerts, etc.)
+# ---------------
 # scheduler_events = {
-# 	"all": [
-# 		"import_export.tasks.all"
-# 	],
-# 	"daily": [
-# 		"import_export.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"import_export.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"import_export.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"import_export.tasks.monthly"
-# 	],
+#   "daily": [
+#       "import_export.import_export.validations.export_validations.send_certificate_expiry_alerts"
+#   ],
 # }
 
 # Testing

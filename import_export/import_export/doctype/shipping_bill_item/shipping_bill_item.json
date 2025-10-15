@@ -1,87 +1,110 @@
 {
-    "doctype": "DocType",
-    "owner": "Administrator",
-    "module": "Import Export",
-    "name": "Shipping Bill Item",
-    "istable": 1,
-    "fields": [
-      {
-        "fieldname": "item_code",
-        "label": "Item Code",
-        "fieldtype": "Link",
-        "options": "Item",
-        "in_list_view": 1,
-        "columns": 2
-      },
-      {
-        "fieldname": "item_name",
-        "label": "Item Name",
-        "fieldtype": "Data",
-        "fetch_from": "item_code.item_name",
-        "read_only": 1
-      },
-      {
-        "fieldname": "description",
-        "label": "Description",
-        "fieldtype": "Text"
-      },
-      {
-        "fieldname": "hs_code",
-        "label": "HS Code (8-digit)",
-        "fieldtype": "Data",
-        "reqd": 1,
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "quantity",
-        "label": "Quantity",
-        "fieldtype": "Float",
-        "reqd": 1,
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "uom",
-        "label": "UOM",
-        "fieldtype": "Link",
-        "options": "UOM",
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "fob_value_inr",
-        "label": "FOB Value (INR)",
-        "fieldtype": "Currency",
-        "options": "INR",
-        "reqd": 1,
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "fob_value_fc",
-        "label": "FOB Value (FC)",
-        "fieldtype": "Currency",
-        "options": "currency"
-      },
-      {
-        "fieldname": "assessable_value",
-        "label": "Assessable Value",
-        "fieldtype": "Currency",
-        "options": "INR",
-        "description": "For duty drawback calculation"
-      },
-      {
-        "fieldname": "drawback_rate",
-        "label": "Drawback Rate (%)",
-        "fieldtype": "Percent"
-      },
-      {
-        "fieldname": "drawback_amount",
-        "label": "Drawback Amount",
-        "fieldtype": "Currency",
-        "options": "INR",
-        "read_only": 1
-      }
-    ]
+ "actions": [],
+ "creation": "2025-10-14 17:00:45.400048",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "description",
+  "hs_code",
+  "quantity",
+  "uom",
+  "fob_value_inr",
+  "fob_value_fc",
+  "assessable_value",
+  "drawback_rate",
+  "drawback_amount"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "columns": 1,
+   "fieldname": "hs_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HS Code (8-digit)",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
+  },
+  {
+   "columns": 1,
+   "fieldname": "fob_value_inr",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "FOB Value (INR)",
+   "options": "INR",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fob_value_fc",
+   "fieldtype": "Currency",
+   "label": "FOB Value (FC)",
+   "options": "currency"
+  },
+  {
+   "description": "For duty drawback calculation",
+   "fieldname": "assessable_value",
+   "fieldtype": "Currency",
+   "label": "Assessable Value",
+   "options": "INR"
+  },
+  {
+   "fieldname": "drawback_rate",
+   "fieldtype": "Percent",
+   "label": "Drawback Rate (%)"
+  },
+  {
+   "fieldname": "drawback_amount",
+   "fieldtype": "Currency",
+   "label": "Drawback Amount",
+   "options": "INR",
+   "read_only": 1
   }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2025-10-16 02:24:09.179088",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Shipping Bill Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

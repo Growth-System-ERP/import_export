@@ -6,16 +6,32 @@ from frappe.utils import flt, money_in_words
 
 class CommercialInvoiceExport(Document):
     def validate(self):
-        self.validate_items()
         self.calculate_totals()
         self.set_status()
         self.set_in_words()
     
     def on_submit(self):
+        self.validate_items()
+        self.validate_imp_fields()
+        self.check_duplicate_commercial_invoice()
+
         self.status = "Submitted"
     
     def on_cancel(self):
         self.status = "Cancelled"
+        # self.check_duplicate_commercial_invoice()
+
+    def validate_imp_fields(self):
+        """Validate commercial invoice before save/submit"""
+        # Validate required shipping fields
+        if not self.country_of_origin:
+            frappe.throw(_("Country of Origin is required"))
+
+        if not self.port_of_loading:
+            frappe.throw(_("Port of Loading is required"))
+
+        if not self.port_of_discharge:
+            frappe.throw(_("Port of Discharge is required"))
     
     def validate_items(self):
         """Validate that items exist and have required fields"""
@@ -90,6 +106,23 @@ class CommercialInvoiceExport(Document):
         elif self.docstatus == 2:
             self.status = "Cancelled"
 
+    def check_duplicate_commercial_invoice(self):
+        """Ensure only one Commercial Invoice per Sales Order"""
+        if not self.sales_order:
+            return
+
+        existing = frappe.db.count("Commercial Invoice Export", {
+            "sales_order": self.sales_order,
+            "name": ["!=", self.name],
+            "docstatus": ["!=", 2]
+        })
+
+        if existing > 0:
+            frappe.msgprint(_(
+                "Warning: Another Commercial Invoice already exists for Sales Order {0}"
+            ).format(self.sales_order), indicator="orange", alert=True)
+
+
 
 @frappe.whitelist()
 def get_items_from_sales_order(sales_order):
@@ -120,3 +153,72 @@ def get_items_from_sales_order(sales_order):
         })
     
     return items
+
+
+@frappe.whitelist()
+def create_from_sales_order(sales_order):
+    """Create Commercial Invoice from Sales Order"""
+    # Check if already exists
+    existing = frappe.db.exists("Commercial Invoice Export", {
+        "sales_order": sales_order,
+        "docstatus": ["!=", 2]
+    })
+
+    if existing:
+        frappe.throw(_(
+            "Commercial Invoice already exists for this Sales Order: {0}"
+        ).format(existing))
+
+    # Get Sales Order
+    so = frappe.get_doc("Sales Order", sales_order)
+
+    # Validate
+    if so.gst_category != "Overseas":
+        frappe.throw(_("This Sales Order is not marked as export order"))
+
+    if so.docstatus != 1:
+        frappe.throw(_("Sales Order must be submitted first"))
+
+    # Create Commercial Invoice
+    ci = frappe.new_doc("Commercial Invoice Export")
+    ci.sales_order = so.name
+    ci.company = so.company
+    ci.customer = so.customer
+    ci.customer_name = so.customer_name
+    ci.invoice_date = frappe.utils.today()
+    ci.currency = so.currency
+    ci.conversion_rate = so.conversion_rate
+    ci.incoterm = so.get("incoterm")
+    ci.payment_terms = so.get("payment_terms_template")
+
+    company_doc = frappe.get_doc("Company", so.company)
+    ci.iec_code = company_doc.get("iec_code")
+
+    if so.customer_address:
+        address = frappe.get_doc("Address", so.customer_address)
+        ci.consignee_address_name = so.customer_address
+        ci.consignee_country = address.country
+
+    # Copy items
+    for item in so.items:
+        item_doc = frappe.get_doc("Item", item.item_code)
+        ci.append("items", {
+            "item_code": item.item_code,
+            "item_name": item.item_name,
+            "description": item.description,
+            "hs_code": item_doc.get("gst_hsn_code"),
+            "country_of_origin": item_doc.get("country_of_origin"),
+            "qty": item.qty,
+            "uom": item.uom,
+            "rate": item.rate,
+            "amount": item.amount,
+            "net_weight": item_doc.get("weight_per_unit", 0) * item.qty,
+            "gross_weight": item_doc.get("weight_per_unit", 0) * item.qty * 1.1,  # Assuming 10% tare
+            "volume_per_unit": item_master.get("volume_per_unit", 0),
+            "sales_order_item": item.name
+        })
+
+    ci.insert(ignore_mandatory=True)
+    # frappe.db.commit()
+
+    return ci.name

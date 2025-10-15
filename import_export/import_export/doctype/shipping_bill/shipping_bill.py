@@ -6,6 +6,11 @@ from frappe.utils import flt
 
 class ShippingBill(Document):
     def validate(self):
+        if doc.port_code and len(doc.port_code) != 6:
+            frappe.msgprint(_(
+                "Port Code should be 6 digits as per Indian customs format"
+            ), indicator="orange", alert=True)
+
         self.validate_commercial_invoice()
         self.calculate_totals()
         self.calculate_incentives()
@@ -13,9 +18,16 @@ class ShippingBill(Document):
     
     def on_submit(self):
         self.status = "Submitted"
+
+        if doc.commercial_invoice:
+            frappe.db.set_value("Commercial Invoice Export", doc.commercial_invoice,
+            "custom_shipping_bill_no", doc.name)
     
     def on_cancel(self):
         self.status = "Cancelled"
+        if doc.commercial_invoice:
+            frappe.db.set_value("Commercial Invoice Export", doc.commercial_invoice,
+            "custom_shipping_bill_no", "")
     
     def validate_commercial_invoice(self):
         """Validate commercial invoice exists and is submitted"""

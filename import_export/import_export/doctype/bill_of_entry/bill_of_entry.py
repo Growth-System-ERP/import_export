@@ -6,6 +6,11 @@ from frappe.utils import flt
 
 class BillofEntry(Document):
     def validate(self):
+        if doc.port_code and len(doc.port_code) != 6:
+            frappe.msgprint(_(
+                "Port Code should be 6 digits as per Indian customs format"
+            ), indicator="orange", alert=True)
+
         self.calculate_duties()
         self.calculate_totals()
         self.set_status()

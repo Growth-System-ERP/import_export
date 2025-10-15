@@ -6,15 +6,28 @@ from frappe.utils import flt
 
 class BillofLading(Document):
     def validate(self):
+        if doc.bl_no and not doc.bl_no.strip():
+            frappe.throw(_("B/L Number cannot be empty"))
+
         self.validate_commercial_invoice()
         self.calculate_totals()
         self.set_status()
     
     def on_submit(self):
         self.bl_status = "Issued"
+
+        if doc.commercial_invoice:
+            ci = frappe.get_doc("Commercial Invoice Export", doc.commercial_invoice)
+            ci.db_set("bill_of_lading_no", doc.bl_no)
+            ci.db_set("bl_date", doc.bl_date)
     
     def on_cancel(self):
         self.bl_status = "Cancelled"
+
+        if doc.commercial_invoice:
+            ci = frappe.get_doc("Commercial Invoice Export", doc.commercial_invoice)
+            ci.db_set("bill_of_lading_no", "")
+            ci.db_set("bl_date", "")
     
     def validate_commercial_invoice(self):
         """Validate commercial invoice exists"""

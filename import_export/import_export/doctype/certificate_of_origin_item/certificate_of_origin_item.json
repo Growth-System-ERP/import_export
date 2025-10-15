@@ -1,75 +1,97 @@
 {
-    "doctype": "DocType",
-    "name": "Certificate of Origin Item",
-    "module": "Import Export",
-    "istable": 1,
-    "fields": [
-      {
-        "fieldname": "item_code",
-        "label": "Item Code",
-        "fieldtype": "Link",
-        "options": "Item",
-        "in_list_view": 1,
-        "columns": 2
-      },
-      {
-        "fieldname": "item_name",
-        "label": "Item Name",
-        "fieldtype": "Data",
-        "fetch_from": "item_code.item_name",
-        "read_only": 1
-      },
-      {
-        "fieldname": "description",
-        "label": "Product Description",
-        "fieldtype": "Text",
-        "in_list_view": 1,
-        "columns": 3
-      },
-      {
-        "fieldname": "hs_code",
-        "label": "HS Code",
-        "fieldtype": "Data",
-        "fetch_from": "item_code.gst_hsn_code",
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "quantity",
-        "label": "Quantity",
-        "fieldtype": "Float",
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "uom",
-        "label": "UOM",
-        "fieldtype": "Link",
-        "options": "UOM",
-        "fetch_from": "item_code.stock_uom",
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "country_of_origin",
-        "label": "Country of Origin",
-        "fieldtype": "Link",
-        "options": "Country",
-        "fetch_from": "item_code.country_of_origin",
-        "in_list_view": 1,
-        "columns": 1
-      },
-      {
-        "fieldname": "value",
-        "label": "Value",
-        "fieldtype": "Currency",
-        "options": "currency"
-      },
-      {
-        "fieldname": "manufacturing_process",
-        "label": "Manufacturing Process",
-        "fieldtype": "Text",
-        "description": "Brief description of manufacturing process"
-      }
-    ]
+ "actions": [],
+ "creation": "2025-10-14 01:52:40.454725",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "description",
+  "hs_code",
+  "quantity",
+  "uom",
+  "country_of_origin",
+  "value",
+  "manufacturing_process"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "columns": 3,
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Product Description"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "item_code.gst_hsn_code",
+   "fieldname": "hs_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HS Code"
+  },
+  {
+   "columns": 1,
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "item_code.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "item_code.country_of_origin",
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Country of Origin",
+   "options": "Country"
+  },
+  {
+   "fieldname": "value",
+   "fieldtype": "Currency",
+   "label": "Value",
+   "options": "currency"
+  },
+  {
+   "description": "Brief description of manufacturing process",
+   "fieldname": "manufacturing_process",
+   "fieldtype": "Text",
+   "label": "Manufacturing Process"
   }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2025-10-16 02:24:17.521153",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "Certificate of Origin Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

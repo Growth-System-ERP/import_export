@@ -25,10 +25,10 @@ frappe.ui.form.on('Pick List', {
                 args: {
                     doctype: 'Sales Order',
                     filters: { name: frm.doc.sales_order },
-                    fieldname: 'customer_group'
+                    fieldname: 'gst_category'
                 },
                 callback: function(r) {
-                    if (r.message && r.message.customer_group === 'EXPORTER') {
+                    if (r.message && r.message.gst_category == "Overseas") {
                         
                         // Find Commercial Invoice
                         frappe.call({

@@ -1,0 +1,33 @@
+{
+ "custom_fields": [
+  {
+      "dt": "Company",
+      "fieldname": "iec_code",
+      "label": "IEC Code",
+      "fieldtype": "Data",
+      "insert_after": "company_name",
+      "name": "Item-iec_code"
+  },
+  {
+      "dt": "Company",
+      "fieldname": "default_port_of_export",
+      "label": "Default Port of Export",
+      "fieldtype": "Data",
+      "insert_after": "iec_code",
+      "name": "Item-default_port_of_export"
+  },
+  {
+      "dt": "Company",
+      "fieldname": "rcmc_number",
+      "label": "RCMC Number",
+      "fieldtype": "Data",
+      "insert_after": "default_port_of_export",
+      "name": "Item-rcmc_number"
+  }
+],
+ "custom_perms": [],
+ "doctype": "Company",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

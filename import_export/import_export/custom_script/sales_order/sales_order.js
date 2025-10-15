@@ -1,7 +1,7 @@
 frappe.ui.form.on('Sales Order', {
     refresh: function(frm) {
         // Only show for export customers
-        if (frm.doc.docstatus === 1 && frm.doc.customer_group === "EXPORTER") {
+        if (frm.doc.docstatus === 1 && frm.doc.gst_category === "Overseas") {
             
             // Check if Commercial Invoice already exists
             frappe.call({
@@ -31,7 +31,7 @@ frappe.ui.form.on('Sales Order', {
     
     // Validation: Check if export customer has all required fields
     validate: function(frm) {
-        if (frm.doc.customer_group === "EXPORTER") {
+        if (frm.doc.gst_category === "Overseas") {
             // Check incoterm
             if (!frm.doc.incoterm) {
                 frappe.msgprint(__('Incoterm is required for export orders'));
