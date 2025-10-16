@@ -6,7 +6,7 @@ from frappe.utils import flt
 
 class ShippingBill(Document):
     def validate(self):
-        if doc.port_code and len(doc.port_code) != 6:
+        if self.port_code and len(self.port_code) != 6:
             frappe.msgprint(_(
                 "Port Code should be 6 digits as per Indian customs format"
             ), indicator="orange", alert=True)
@@ -19,14 +19,14 @@ class ShippingBill(Document):
     def on_submit(self):
         self.status = "Submitted"
 
-        if doc.commercial_invoice:
-            frappe.db.set_value("Commercial Invoice Export", doc.commercial_invoice,
-            "custom_shipping_bill_no", doc.name)
+        if self.commercial_invoice:
+            frappe.db.set_value("Commercial Invoice Export", self.commercial_invoice,
+            "custom_shipping_bill_no", self.name)
     
     def on_cancel(self):
         self.status = "Cancelled"
-        if doc.commercial_invoice:
-            frappe.db.set_value("Commercial Invoice Export", doc.commercial_invoice,
+        if self.commercial_invoice:
+            frappe.db.set_value("Commercial Invoice Export", self.commercial_invoice,
             "custom_shipping_bill_no", "")
     
     def validate_commercial_invoice(self):
@@ -62,18 +62,103 @@ class ShippingBill(Document):
                 )
     
     def calculate_incentives(self):
-        """Calculate export incentives"""
-        # Calculate RoDTEP if claimed
-        if self.rodtep_claimed and self.rodtep_rate:
-            self.rodtep_amount = (
-                flt(self.total_fob_value_inr) * flt(self.rodtep_rate) / 100
-            )
-        
-        # Calculate total drawback
-        if self.duty_drawback_claimed:
-            self.drawback_amount = sum(
-                flt(item.drawback_amount) for item in self.items
-            )
+        """Calculate export incentives based on FOB value and incentive schemes"""
+        if not self.fob_value_inr:
+            return
+
+        total_incentives = 0
+
+        # RoDTEP (Remission of Duties and Taxes on Exported Products)
+        if self.rodtep_rate:
+            rodtep_amount = flt(self.fob_value_inr) * flt(self.rodtep_rate) / 100
+            self.rodtep_amount = rodtep_amount
+            total_incentives += rodtep_amount
+
+        # RoSCTL (Rebate of State and Central Taxes and Levies)
+        if self.rosctl_rate:
+            rosctl_amount = flt(self.fob_value_inr) * flt(self.rosctl_rate) / 100
+            self.rosctl_amount = rosctl_amount
+            total_incentives += rosctl_amount
+
+        # MEIS (Merchandise Exports from India Scheme) - if still applicable
+        if self.meis_rate:
+            meis_amount = flt(self.fob_value_inr) * flt(self.meis_rate) / 100
+            self.meis_amount = meis_amount
+            total_incentives += meis_amount
+
+        # DBK (Duty Drawback)
+        if self.dbk_rate:
+            dbk_amount = flt(self.fob_value_inr) * flt(self.dbk_rate) / 100
+            self.dbk_amount = dbk_amount
+            total_incentives += dbk_amount
+
+        # Advance Authorization benefit (if applicable)
+        if self.advance_authorization_no and self.aa_benefit_rate:
+            aa_benefit = flt(self.fob_value_inr) * flt(self.aa_benefit_rate) / 100
+            self.aa_benefit_amount = aa_benefit
+            total_incentives += aa_benefit
+
+        # EPCG benefit calculation (if applicable)
+        if self.epcg_license_no and self.epcg_duty_saved:
+            self.epcg_benefit_amount = flt(self.epcg_duty_saved)
+            total_incentives += flt(self.epcg_duty_saved)
+
+        # Interest Subvention (if applicable for certain sectors)
+        if self.interest_subvention_rate:
+            interest_subvention = flt(self.fob_value_inr) * flt(self.interest_subvention_rate) / 100
+            self.interest_subvention_amount = interest_subvention
+            total_incentives += interest_subvention
+
+        # TMA (Transport and Marketing Assistance) for specified agriculture products
+        if self.tma_applicable:
+            # TMA rates vary by product and destination
+            tma_amount = self.calculate_tma_amount()
+            self.tma_amount = tma_amount
+            total_incentives += tma_amount
+
+        # Set total incentives
+        self.total_incentive_amount = total_incentives
+
+        # Calculate net realization
+        self.net_foreign_exchange_realization = flt(self.fob_value_inr) + total_incentives
+
+    def calculate_tma_amount(self):
+        """Calculate Transport and Marketing Assistance based on product and destination"""
+        # This is a simplified version - actual rates depend on product HSN and destination
+        tma_rates = {
+            "USA": 7,
+            "Europe": 6,
+            "Africa": 8,
+            "Asia": 5,
+            "Others": 6
+        }
+
+        # Get destination region (you might want to map country to region)
+        destination_region = self.get_destination_region()
+        rate = tma_rates.get(destination_region, 5)
+
+        # TMA is usually calculated on freight on FOB value
+        if self.freight_amount:
+            return flt(self.freight_amount) * rate / 100
+        else:
+            # Fallback to percentage of FOB
+            return flt(self.fob_value_inr) * rate / 100
+
+    def get_destination_region(self):
+        """Map country to region for TMA calculation"""
+        # Simplified mapping - expand as needed
+        country_region_map = {
+            "United States": "USA",
+            "Germany": "Europe",
+            "France": "Europe",
+            "United Kingdom": "Europe",
+            "China": "Asia",
+            "Japan": "Asia",
+            "South Africa": "Africa",
+            "Nigeria": "Africa"
+        }
+
+        return country_region_map.get(self.port_of_discharge_country, "Others")
     
     def set_status(self):
         """Set document status"""
@@ -138,3 +223,87 @@ def update_customs_status(shipping_bill_name, sb_status, leo_date=None,
     doc.save()
     
     return {"message": "Status updated successfully"}
+
+
+@frappe.whitelist()
+def create_from_commercial_invoice(commercial_invoice):
+    """Create Shipping Bill from Commercial Invoice"""
+
+    ci = frappe.get_doc("Commercial Invoice Export", commercial_invoice)
+
+    # Check if CI is submitted
+    if ci.docstatus != 1:
+        frappe.throw(_("Commercial Invoice must be submitted first"))
+
+    # Check if already exists
+    existing = frappe.db.exists("Shipping Bill", {
+        "commercial_invoice": commercial_invoice,
+        "docstatus": ["!=", 2]
+    })
+
+    if existing:
+        frappe.throw(_("Shipping Bill already exists: {0}").format(existing))
+
+    # Create Shipping Bill
+    sb = frappe.new_doc("Shipping Bill")
+    sb.commercial_invoice = ci.name
+    sb.company = ci.company
+    sb.shipping_bill_date = frappe.utils.today()
+    sb.shipping_bill_type = "Free Shipping Bill"  # Default, user can change
+
+    # Port code - needs to be set by user (6-digit Indian customs code)
+    # sb.port_code = ""  # User must enter
+
+    # Exporter details
+    sb.exporter_name = ci.exporter_name
+    sb.exporter_address = ci.exporter_address
+    sb.iec_code = ci.iec_code
+    sb.exporter_gstin = ci.exporter_gstin
+    sb.exporter_pan = ci.exporter_pan
+
+    # Consignee details
+    sb.consignee_name = ci.customer_name
+    sb.consignee_address = ci.consignee_address
+    sb.destination_country = ci.consignee_country
+    sb.port_of_discharge = ci.port_of_discharge
+    sb.final_destination = ci.final_destination
+
+    # Shipping details
+    sb.port_of_loading = ci.port_of_loading
+    sb.mode_of_shipment = "Sea"  # Default, user can change
+    sb.vessel_flight_no = ci.vessel_flight_no
+    sb.container_nos = ci.container_nos
+
+    # Currency details
+    sb.currency = ci.currency
+    sb.exchange_rate = ci.conversion_rate
+
+    # Copy items
+    for item in ci.items:
+        sb.append("items", {
+            "item_code": item.item_code,
+            "item_name": item.item_name,
+            "description": item.description,
+            "hs_code": item.hs_code,
+            "quantity": item.qty,
+            "uom": item.uom,
+            "fob_value_fc": item.amount,
+            "fob_value_inr": flt(item.amount) * flt(ci.conversion_rate),
+            "assessable_value": flt(item.amount) * flt(ci.conversion_rate)
+        })
+
+    # Calculate totals
+    sb.total_fob_value_fc = ci.total_fob_value
+    sb.total_fob_value_inr = flt(ci.total_fob_value) * flt(ci.conversion_rate)
+    sb.freight_charges = ci.freight_charges
+    sb.insurance_charges = ci.insurance_charges
+
+    sb.insert()
+
+    frappe.msgprint(
+        _("Shipping Bill created. Please update Port Code and customs details."),
+        indicator="blue",
+        alert=True
+    )
+
+    return sb.name

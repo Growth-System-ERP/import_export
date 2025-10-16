@@ -4,163 +4,163 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-    "carton_id",
-    "carton_count",
-    "items_per_carton",
-    "pattern_signature",
-    "packing_efficiency",
-    "utilization",
-    "col_break_1",
-    "length",
-    "width",
-    "height",
-    "volume",
-    "weight_limit",
-    "col_break_2",
-    "cost_per_unit",
-    "total_cost",
-    "total_items",
-    "section_break_items",
-    "item_summary",
-    "positions_3d"
+  "carton_id",
+  "carton_count",
+  "items_per_carton",
+  "pattern_signature",
+  "packing_efficiency",
+  "utilization",
+  "col_break_1",
+  "length",
+  "width",
+  "height",
+  "volume",
+  "weight_limit",
+  "col_break_2",
+  "cost_per_unit",
+  "total_cost",
+  "total_items",
+  "section_break_items",
+  "item_summary",
+  "positions_3d"
  ],
  "fields": [
-    {
-      "fieldname": "carton_id",
-      "label": "Carton Type",
-      "fieldtype": "Link",
-      "options": "Carton",
-      "in_list_view": 1,
-      "columns": 2,
-      "reqd": 1
-    },
-    {
-      "fieldname": "carton_count",
-      "label": "Number of Cartons",
-      "fieldtype": "Int",
-      "in_list_view": 1,
-      "columns": 1,
-      "reqd": 1,
-      "description": "Total cartons of this type with same packing pattern"
-    },
-    {
-      "fieldname": "items_per_carton",
-      "label": "Items per Carton",
-      "fieldtype": "Int",
-      "read_only": 1,
-      "description": "Number of items in each carton"
-    },
-    {
-      "fieldname": "pattern_signature",
-      "label": "Pattern Signature",
-      "fieldtype": "Data",
-      "hidden": 1,
-      "read_only": 1,
-      "description": "Unique identifier for packing pattern"
-    },
-    {
-      "fieldname": "packing_efficiency",
-      "label": "Efficiency %",
-      "fieldtype": "Percent",
-      "in_list_view": 1,
-      "columns": 1,
-      "read_only": 1
-    },
-    {
-      "fieldname": "utilization",
-      "label": "Utilization %",
-      "fieldtype": "Percent",
-      "read_only": 1
-    },
-    {
-      "fieldname": "col_break_1",
-      "fieldtype": "Column Break"
-    },
-    {
-      "fieldname": "length",
-      "label": "Length (cm)",
-      "fieldtype": "Float",
-      "fetch_from": "carton_id.length",
-      "read_only": 1
-    },
-    {
-      "fieldname": "width",
-      "label": "Width (cm)",
-      "fieldtype": "Float",
-      "fetch_from": "carton_id.width",
-      "read_only": 1
-    },
-    {
-      "fieldname": "height",
-      "label": "Height (cm)",
-      "fieldtype": "Float",
-      "fetch_from": "carton_id.height",
-      "read_only": 1
-    },
-    {
-      "fieldname": "volume",
-      "label": "Volume per Carton",
-      "fieldtype": "Float",
-      "fetch_from": "carton_id.volume",
-      "read_only": 1
-    },
-    {
-      "fieldname": "weight_limit",
-      "label": "Weight Limit (Kg)",
-      "fieldtype": "Float",
-      "fetch_from": "carton_id.weight_limit",
-      "read_only": 1
-    },
-    {
-      "fieldname": "col_break_2",
-      "fieldtype": "Column Break"
-    },
-    {
-      "fieldname": "cost_per_unit",
-      "label": "Cost per Carton",
-      "fieldtype": "Currency",
-      "fetch_from": "carton_id.cost_per_unit",
-      "read_only": 1
-    },
-    {
-      "fieldname": "total_cost",
-      "label": "Total Cost",
-      "fieldtype": "Currency",
-      "read_only": 1,
-      "in_list_view": 1,
-      "columns": 1
-    },
-    {
-      "fieldname": "total_items",
-      "label": "Total Items",
-      "fieldtype": "Int",
-      "read_only": 1,
-      "description": "Total items across all cartons of this pattern"
-    },
-    {
-      "fieldname": "section_break_items",
-      "label": "Items & Pattern",
-      "fieldtype": "Section Break"
-    },
-    {
-      "fieldname": "item_summary",
-      "label": "Items in Pattern",
-      "fieldtype": "Long Text",
-      "read_only": 1,
-      "description": "Summary of items packed in this pattern"
-    },
-    {
-      "fieldname": "positions_3d",
-      "label": "3D Packing Pattern",
-      "fieldtype": "Long Text",
-      "hidden": 1,
-      "read_only": 1,
-      "description": "JSON data for 3D visualization"
-    }
+  {
+   "columns": 2,
+   "fieldname": "carton_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Carton Type",
+   "options": "Carton",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "description": "Total cartons of this type with same packing pattern",
+   "fieldname": "carton_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Number of Cartons",
+   "reqd": 1
+  },
+  {
+   "description": "Number of items in each carton",
+   "fieldname": "items_per_carton",
+   "fieldtype": "Int",
+   "label": "Items per Carton",
+   "read_only": 1
+  },
+  {
+   "description": "Unique identifier for packing pattern",
+   "fieldname": "pattern_signature",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Pattern Signature",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "packing_efficiency",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Efficiency %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "utilization",
+   "fieldtype": "Percent",
+   "label": "Utilization %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "carton_id.length",
+   "fieldname": "length",
+   "fieldtype": "Float",
+   "label": "Length",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "carton_id.width",
+   "fieldname": "width",
+   "fieldtype": "Float",
+   "label": "Width",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "carton_id.height",
+   "fieldname": "height",
+   "fieldtype": "Float",
+   "label": "Height",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "carton_id.volume",
+   "fieldname": "volume",
+   "fieldtype": "Float",
+   "label": "Volume per Carton",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "carton_id.weight_limit",
+   "fieldname": "weight_limit",
+   "fieldtype": "Float",
+   "label": "Weight Limit (Kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "carton_id.cost_per_unit",
+   "fieldname": "cost_per_unit",
+   "fieldtype": "Currency",
+   "label": "Cost per Carton",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Cost",
+   "read_only": 1
+  },
+  {
+   "description": "Total items across all cartons of this pattern",
+   "fieldname": "total_items",
+   "fieldtype": "Int",
+   "label": "Total Items",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "Items & Pattern"
+  },
+  {
+   "description": "Summary of items packed in this pattern",
+   "fieldname": "item_summary",
+   "fieldtype": "Long Text",
+   "label": "Items in Pattern",
+   "read_only": 1
+  },
+  {
+   "description": "JSON data for 3D visualization",
+   "fieldname": "positions_3d",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "3D Packing Pattern",
+   "read_only": 1
+  }
  ],
  "istable": 1,
  "links": [],
- "modified": "2025-09-27 01:41:59.057215",
+ "modified": "2025-10-16 03:35:02.409105",
  "modified_by": "Administrator",
  "module": "Import Export",
  "name": "Packing List Carton",

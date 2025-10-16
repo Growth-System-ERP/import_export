@@ -13,7 +13,7 @@
   "col_break_1",
   "commercial_invoice",
   "sales_order",
-  "delivery_note",
+  "pick_list",
   "shipper_section",
   "shipper_name",
   "shipper_address",
@@ -97,12 +97,6 @@
    "fieldtype": "Link",
    "label": "Sales Order",
    "options": "Sales Order"
-  },
-  {
-   "fieldname": "delivery_note",
-   "fieldtype": "Link",
-   "label": "Delivery Note",
-   "options": "Delivery Note"
   },
   {
    "fieldname": "shipper_section",
@@ -300,11 +294,17 @@
    "no_copy": 1,
    "options": "Packing List Export",
    "read_only": 1
+  },
+  {
+   "fieldname": "pick_list",
+   "fieldtype": "Link",
+   "label": "Pick List",
+   "options": "Pick List"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-14 16:33:29.138764",
+ "modified": "2025-10-16 03:37:06.054242",
  "modified_by": "Administrator",
  "module": "Import Export",
  "name": "Packing List Export",

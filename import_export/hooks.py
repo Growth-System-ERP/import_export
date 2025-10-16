@@ -142,9 +142,16 @@ notification_config = "import_export.import_export.notifications.get_notificatio
 # Scheduled Tasks (for future enhancement - certificate expiry alerts, etc.)
 # ---------------
 # scheduler_events = {
-#   "daily": [
-#       "import_export.import_export.validations.export_validations.send_certificate_expiry_alerts"
-#   ],
+#     "daily": [
+#         "import_export.notifications.send_certificate_expiry_alerts",
+#         "import_export.notifications.send_lc_expiry_alerts"
+#     ],
+#     "hourly": [
+#         "import_export.notifications.check_leo_status"  # Check for pending LEOs
+#     ],
+#     "weekly": [
+#         "import_export.notifications.send_weekly_export_summary"
+#     ]
 # }
 
 # Testing

@@ -1,25 +1,14 @@
+// File: import_export/import_export/doctype/commercial_invoice_export/commercial_invoice_export.js
+// Enhanced with status workflow display
+
 frappe.ui.form.on('Commercial Invoice Export', {
     refresh: function(frm) {
         if (frm.doc.docstatus === 1) {
+            // Show export readiness status
+            show_export_readiness(frm);
 
-            // Create Packing List button
-            check_and_add_button(frm, 'Packing List Export', 'commercial_invoice',
-                                 'Packing List', create_packing_list);
-
-            // Create Certificate of Origin button
-            check_and_add_button(frm, 'Certificate of Origin', 'commercial_invoice',
-                                 'Certificate of Origin', create_coo);
-
-            // Create Shipping Bill button
-            check_and_add_button(frm, 'Shipping Bill', 'commercial_invoice',
-                                 'Shipping Bill', create_shipping_bill);
-
-            // Create Bill of Lading button
-            check_and_add_button(frm, 'Bill of Lading', 'bl_no',
-                                 'Bill of Lading', create_bill_of_lading);
-
-            // Show related documents section
-            show_related_documents(frm);
+            // Add create buttons for child documents
+            add_create_buttons(frm);
         }
     },
 
@@ -48,160 +37,368 @@ frappe.ui.form.on('Commercial Invoice Export', {
             frappe.msgprint(__('Port of Loading and Port of Discharge are required'));
             frappe.validated = false;
         }
+    },
+
+    sales_order: function(frm) {
+        // Auto-populate items when sales order is selected
+        if (frm.doc.sales_order && !frm.doc.items.length) {
+            frappe.call({
+                method: 'import_export.import_export.doctype.commercial_invoice_export.commercial_invoice_export.get_items_from_sales_order',
+                args: {
+                    sales_order: frm.doc.sales_order
+                },
+                callback: function(r) {
+                    if (r.message && r.message.length > 0) {
+                        frm.clear_table('items');
+                        r.message.forEach(function(item) {
+                            let row = frm.add_child('items');
+                            Object.assign(row, item);
+                        });
+                        frm.refresh_field('items');
+                        frappe.show_alert({
+                            message: __('Items loaded from Sales Order'),
+                                          indicator: 'green'
+                        }, 3);
+                    }
+                }
+            });
+        }
     }
 });
 
-function check_and_add_button(frm, doctype, filter_field, button_label, callback) {
-    let filters = {};
-    filters[filter_field] = frm.doc.name;
 
+// ==================== EXPORT READINESS INDICATOR ====================
+
+function show_export_readiness(frm) {
     frappe.call({
-        method: 'frappe.client.get_count',
-        args: {
-            doctype: doctype,
-            filters: filters
-        },
+        method: 'import_export.import_export.doctype.commercial_invoice_export.commercial_invoice_export.get_export_readiness',
+        args: { name: frm.doc.name },
         callback: function(r) {
-            if (r.message === 0) {
-                frm.add_custom_button(__(button_label), function() {
-                    callback(frm);
-                }, __('Create'));
-            } else {
-                // Show count and link to list
-                frm.add_custom_button(__('{0} ({1})', [doctype, r.message]), function() {
-                    frappe.set_route('List', doctype, filters);
-                }, __('View'));
-            }
-        }
-    });
-}
+            if (r.message) {
+                let data = r.message;
+                let completion = data.completion_percentage;
 
-function create_packing_list(frm) {
-    // Check if Pick List exists
-    frappe.call({
-        method: 'frappe.client.get_list',
-        args: {
-            doctype: 'Pick List',
-            filters: {
-                sales_order: frm.doc.sales_order,
-                docstatus: 1
-            },
-            fields: ['name', 'total_cartons'],
-            order_by: 'creation desc',
-            limit: 1
-        },
-        callback: function(r) {
-            if (r.message && r.message.length > 0) {
-                let pick_list = r.message[0];
+                // Add indicator to dashboard
+                let indicator_color = completion === 100 ? 'green' :
+                completion >= 75 ? 'blue' :
+                completion >= 50 ? 'orange' : 'red';
 
-                // Check if packing calculation is done
-                if (!pick_list.total_cartons || pick_list.total_cartons === 0) {
+                frm.dashboard.add_indicator(
+                    __('Export Documents Ready: {0}%', [completion.toFixed(0)]),
+                                            indicator_color
+                );
+
+                // Show detailed status
+                let status_html = build_status_html(data.status, data.missing_documents);
+                frm.dashboard.add_section(status_html, __('Export Documentation Status'));
+
+                // Show completion message
+                if (completion === 100) {
+                    frappe.show_alert({
+                        message: __('All export documents are ready for shipment!'),
+                                      indicator: 'green'
+                    }, 5);
+                } else if (data.missing_documents.length > 0) {
                     frappe.msgprint({
-                        title: __('Packing Not Calculated'),
-                                    message: __('Pick List {0} exists but packing calculation is not done. Please run packing calculation first.',
-                                                [pick_list.name]),
-                                                indicator: 'orange'
+                        title: __('Pending Documents'),
+                                    message: __('Missing: {0}', [data.missing_documents.join(', ')]),
+                                    indicator: 'orange'
                     });
-                    return;
                 }
-
-                // Create from Pick List
-                frappe.call({
-                    method: 'import_export.packing_list_export.create_from_pick_list',
-                    args: {
-                        pick_list_name: pick_list.name,
-                        commercial_invoice: frm.doc.name
-                    },
-                    freeze: true,
-                    freeze_message: __('Creating Packing List...'),
-                            callback: function(r) {
-                                if (r.message) {
-                                    frappe.msgprint(__('Packing List {0} created successfully', [r.message]));
-                                    frappe.set_route('Form', 'Packing List Export', r.message);
-                                }
-                            }
-                });
-            } else {
-                frappe.msgprint({
-                    title: __('No Pick List Found'),
-                                message: __('Please create and pack a Pick List first from Sales Order {0}',
-                                            [frm.doc.sales_order]),
-                                            indicator: 'red'
-                });
             }
         }
     });
 }
 
-function create_coo(frm) {
-    let coo = frappe.model.get_new_doc('Certificate of Origin');
-    coo.commercial_invoice = frm.doc.name;
-    coo.certificate_type = 'Generic';
-    coo.country_of_export = frm.doc.country_of_origin;
-    coo.destination_country = frm.doc.consignee_country;
 
-    frappe.set_route('Form', 'Certificate of Origin', coo.name);
-}
-
-function create_shipping_bill(frm) {
-    let sb = frappe.model.get_new_doc('Shipping Bill');
-    sb.commercial_invoice = frm.doc.name;
-    sb.shipping_bill_type = 'Free Shipping Bill';
-    sb.currency = frm.doc.currency;
-    sb.exchange_rate = frm.doc.conversion_rate;
-
-    frappe.set_route('Form', 'Shipping Bill', sb.name);
-}
-
-function create_bill_of_lading(frm) {
-    let bl = frappe.model.get_new_doc('Bill of Lading');
-    bl.commercial_invoice = frm.doc.name;
-    bl.bl_type = 'Ocean Bill of Lading';
-
-    frappe.set_route('Form', 'Bill of Lading', bl.name);
-}
-
-function show_related_documents(frm) {
-    // Show related documents in a nice format
-    let related_html = `
+function build_status_html(status, missing_documents) {
+    let html = `
     <div class="row">
     <div class="col-md-12">
-    <h5>Related Export Documents</h5>
-    <div id="related-docs-container"></div>
+    <h5 style="margin-bottom: 15px;">Document Checklist</h5>
+    <table class="table table-bordered" style="margin-bottom: 0;">
+    <thead>
+    <tr>
+    <th width="40%">Document</th>
+    <th width="15%">Status</th>
+    <th width="15%">Submitted</th>
+    <th width="30%">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    `;
+
+    // Document order
+    let doc_order = [
+        'commercial_invoice',
+        'packing_list',
+        'certificate_of_origin',
+        'shipping_bill',
+        'bill_of_lading'
+    ];
+
+    let doc_labels = {
+        'commercial_invoice': 'Commercial Invoice',
+        'packing_list': 'Packing List',
+        'certificate_of_origin': 'Certificate of Origin',
+        'shipping_bill': 'Shipping Bill',
+        'bill_of_lading': 'Bill of Lading'
+    };
+
+    doc_order.forEach(function(doc_key) {
+        let doc_status = status[doc_key];
+        let label = doc_labels[doc_key];
+
+        let status_badge = doc_status.exists ?
+        (doc_status.submitted ?
+        '<span class="indicator-pill green">Submitted</span>' :
+        '<span class="indicator-pill yellow">Draft</span>') :
+        '<span class="indicator-pill red">Not Created</span>';
+
+        let submitted_check = doc_status.submitted ?
+        '<i class="fa fa-check text-success"></i>' :
+        '<i class="fa fa-times text-muted"></i>';
+
+        let action_html = '';
+        if (doc_status.exists && doc_status.name) {
+            let doctype_route = doc_key.replace(/_/g, '-');
+            action_html = `<a href="/app/${doctype_route}/${doc_status.name}" target="_blank">View ${label}</a>`;
+        } else {
+            action_html = '<span class="text-muted">Not created yet</span>';
+        }
+
+        html += `
+        <tr>
+        <td><strong>${label}</strong></td>
+        <td>${status_badge}</td>
+        <td class="text-center">${submitted_check}</td>
+        <td>${action_html}</td>
+        </tr>
+        `;
+    });
+
+    html += `
+    </tbody>
+    </table>
     </div>
     </div>
     `;
 
-    frm.dashboard.add_section(related_html, __('Related Documents'));
+    return html;
+}
 
-    // Fetch and display related docs
-    let doctypes = [
-        'Packing List Export',
-        'Certificate of Origin',
-        'Shipping Bill',
-        'Bill of Lading'
+
+// ==================== CREATE BUTTONS ====================
+
+function add_create_buttons(frm) {
+    let docs_to_create = [
+        {
+            doctype: 'Packing List Export',
+            label: 'Packing List',
+            filter_field: 'commercial_invoice',
+            create_fn: create_packing_list
+        },
+        {
+            doctype: 'Certificate of Origin',
+            label: 'Certificate of Origin',
+            filter_field: 'commercial_invoice',
+            create_fn: create_certificate_of_origin
+        },
+        {
+            doctype: 'Shipping Bill',
+            label: 'Shipping Bill',
+            filter_field: 'commercial_invoice',
+            create_fn: create_shipping_bill
+        },
+        {
+            doctype: 'Bill of Lading',
+            label: 'Bill of Lading',
+            filter_field: 'commercial_invoice',
+            create_fn: create_bill_of_lading
+        }
     ];
 
-    doctypes.forEach(function(doctype) {
-        frappe.call({
-            method: 'frappe.client.get_list',
-            args: {
-                doctype: doctype,
-                filters: {
-                    commercial_invoice: frm.doc.name
-                },
-                fields: ['name', 'status', 'creation'],
-                order_by: 'creation desc'
-            },
-            callback: function(r) {
-                if (r.message && r.message.length > 0) {
-                    let html = `<strong>${doctype}:</strong> `;
-                    r.message.forEach(function(doc) {
-                        html += `<a href="/app/${doctype.toLowerCase().replace(/ /g, '-')}/${doc.name}">${doc.name}</a> `;
-                    });
-                    $('#related-docs-container').append(`<p>${html}</p>`);
-                }
+    docs_to_create.forEach(function(doc_info) {
+        check_and_add_button(frm, doc_info);
+    });
+}
+
+
+function check_and_add_button(frm, doc_info) {
+    let filters = {};
+    filters[doc_info.filter_field] = frm.doc.name;
+
+    frappe.call({
+        method: 'frappe.client.get_count',
+        args: {
+            doctype: doc_info.doctype,
+            filters: filters
+        },
+        callback: function(r) {
+            if (r.message === 0) {
+                frm.add_custom_button(
+                    __(doc_info.label),
+                                      function() {
+                                          doc_info.create_fn(frm);
+                                      },
+                                      __('Create')
+                );
+            } else {
+                // Document exists, add view button
+                frappe.call({
+                    method: 'frappe.client.get_value',
+                    args: {
+                        doctype: doc_info.doctype,
+                        filters: filters,
+                        fieldname: 'name'
+                    },
+                    callback: function(r) {
+                        if (r.message) {
+                            frm.add_custom_button(
+                                __('View {0}', [doc_info.label]),
+                                                  function() {
+                                                      frappe.set_route('Form', doc_info.doctype, r.message.name);
+                                                  },
+                                                  __('View')
+                            );
+                        }
+                    }
+                });
             }
-        });
+        }
+    });
+}
+
+
+// ==================== CREATE FUNCTIONS ====================
+
+function create_packing_list(frm) {
+    frappe.confirm(
+        __('Create Packing List from this Commercial Invoice?'),
+                   function() {
+                       frappe.call({
+                           method: 'import_export.import_export.doctype.commercial_invoice_export.commercial_invoice_export.create_next_document',
+                           args: {
+                               commercial_invoice: frm.doc.name,
+                               doctype: 'Packing List Export'
+                           },
+                           freeze: true,
+                           freeze_message: __('Creating Packing List...'),
+                                   callback: function(r) {
+                                       if (r.message) {
+                                           frappe.show_alert({
+                                               message: __('Packing List {0} created', [r.message]),
+                                                             indicator: 'green'
+                                           }, 3);
+                                           frappe.set_route('Form', 'Packing List Export', r.message);
+                                       }
+                                   }
+                       });
+                   }
+    );
+}
+
+
+function create_certificate_of_origin(frm) {
+    frappe.confirm(
+        __('Create Certificate of Origin from this Commercial Invoice?'),
+                   function() {
+                       frappe.call({
+                           method: 'import_export.import_export.doctype.commercial_invoice_export.commercial_invoice_export.create_next_document',
+                           args: {
+                               commercial_invoice: frm.doc.name,
+                               doctype: 'Certificate of Origin'
+                           },
+                           freeze: true,
+                           freeze_message: __('Creating Certificate of Origin...'),
+                                   callback: function(r) {
+                                       if (r.message) {
+                                           frappe.show_alert({
+                                               message: __('Certificate of Origin {0} created', [r.message]),
+                                                             indicator: 'green'
+                                           }, 3);
+                                           frappe.set_route('Form', 'Certificate of Origin', r.message);
+                                       }
+                                   }
+                       });
+                   }
+    );
+}
+
+
+function create_shipping_bill(frm) {
+    frappe.confirm(
+        __('Create Shipping Bill from this Commercial Invoice?'),
+                   function() {
+                       frappe.call({
+                           method: 'import_export.import_export.doctype.commercial_invoice_export.commercial_invoice_export.create_next_document',
+                           args: {
+                               commercial_invoice: frm.doc.name,
+                               doctype: 'Shipping Bill'
+                           },
+                           freeze: true,
+                           freeze_message: __('Creating Shipping Bill...'),
+                                   callback: function(r) {
+                                       if (r.message) {
+                                           frappe.show_alert({
+                                               message: __('Shipping Bill {0} created', [r.message]),
+                                                             indicator: 'green'
+                                           }, 3);
+                                           frappe.set_route('Form', 'Shipping Bill', r.message);
+                                       }
+                                   }
+                       });
+                   }
+    );
+}
+
+
+function create_bill_of_lading(frm) {
+    // Check if Packing List exists first
+    frappe.call({
+        method: 'frappe.client.get_value',
+        args: {
+            doctype: 'Packing List Export',
+            filters: {
+                commercial_invoice: frm.doc.name,
+                docstatus: 1
+            },
+            fieldname: 'name'
+        },
+        callback: function(r) {
+            if (!r.message || !r.message.name) {
+                frappe.msgprint({
+                    title: __('Packing List Required'),
+                                message: __('Bill of Lading requires Packing List to be created and submitted first. Please create Packing List.'),
+                                indicator: 'orange'
+                });
+                return;
+            }
+
+            // Packing List exists, proceed with B/L creation
+            frappe.confirm(
+                __('Create Bill of Lading from Packing List?'),
+                           function() {
+                               frappe.call({
+                                   method: 'import_export.import_export.doctype.commercial_invoice_export.commercial_invoice_export.create_next_document',
+                                   args: {
+                                       commercial_invoice: frm.doc.name,
+                                       doctype: 'Bill of Lading'
+                                   },
+                                   freeze: true,
+                                   freeze_message: __('Creating Bill of Lading...'),
+                                           callback: function(r) {
+                                               if (r.message) {
+                                                   frappe.show_alert({
+                                                       message: __('Bill of Lading {0} created', [r.message]),
+                                                                     indicator: 'green'
+                                                   }, 3);
+                                                   frappe.set_route('Form', 'Bill of Lading', r.message);
+                                               }
+                                           }
+                               });
+                           }
+            );
+        }
     });
 }

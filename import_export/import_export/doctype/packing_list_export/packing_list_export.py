@@ -108,7 +108,7 @@ def create_from_pick_list(pick_list_name, commercial_invoice):
     
     # Copy from Commercial Invoice
     packing_list.sales_order = ci.sales_order
-    packing_list.delivery_note = pick_list.name  # Link to Pick List as delivery reference
+    packing_list.pick_list = pick_list.name  # Link to Pick List as delivery reference
     
     # Copy shipper/consignee details
     packing_list.shipper_name = ci.exporter_name
@@ -257,3 +257,133 @@ def get_items_from_commercial_invoice(commercial_invoice):
         })
     
     return items
+
+@frappe.whitelist()
+def get_pick_list_for_sales_order(sales_order):
+    """Get Pick List with packing data for a Sales Order"""
+    if not sales_order:
+        return None
+
+    pick_lists = frappe.get_all(
+        "Pick List",
+        filters={
+            "sales_order": sales_order,
+            "docstatus": 1
+        },
+        fields=["name", "creation", "total_cartons", "packing_strategy"],
+        order_by="creation desc"
+    )
+
+    if not pick_lists:
+        return None
+
+    # Check if has packing calculations
+    for pl in pick_lists:
+        pl_doc = frappe.get_doc("Pick List", pl.name)
+        if pl_doc.get("carton_assignments") and len(pl_doc.carton_assignments) > 0:
+            return {
+                "name": pl.name,
+                "total_cartons": pl.total_cartons,
+                "packing_strategy": pl.packing_strategy,
+                "has_packing_data": True
+            }
+
+    return None
+
+@frappe.whitelist()
+def create_from_commercial_invoice(commercial_invoice):
+    """
+    Create Packing List from Commercial Invoice
+    This will check for Pick List with packing data first
+    """
+
+    ci = frappe.get_doc("Commercial Invoice Export", commercial_invoice)
+
+    # Check if CI is submitted
+    if ci.docstatus != 1:
+        frappe.throw(_("Commercial Invoice must be submitted first"))
+
+    # Check if Packing List already exists
+    existing = frappe.db.exists("Packing List Export", {
+        "commercial_invoice": commercial_invoice,
+        "docstatus": ["!=", 2]
+    })
+
+    if existing:
+        frappe.throw(_("Packing List already exists: {0}").format(existing))
+
+    # Try to find Pick List for this Sales Order
+    pick_list = None
+    if ci.sales_order:
+        pick_lists = frappe.get_all(
+            "Pick List",
+            filters={
+                "sales_order": ci.sales_order,
+                "docstatus": 1
+            },
+            order_by="`tabPick List`.creation desc",
+            limit=1
+        )
+
+        if pick_lists:
+            pick_list = frappe.get_doc("Pick List", pick_lists[0].name)
+
+    # Check if Pick List has packing calculations
+    if pick_list and pick_list.get("carton_assignments") and len(pick_list.carton_assignments) > 0:
+        # Use the existing create_from_pick_list function
+        return create_from_pick_list(pick_list.name, commercial_invoice)
+
+    # No Pick List or no packing data - create basic Packing List
+    frappe.msgprint(
+        _("No Pick List with packing calculations found. Creating basic Packing List. "
+          "Please update carton details manually or link to a Pick List with packing calculations."),
+        indicator="orange",
+        alert=True
+    )
+
+    pl = frappe.new_doc("Packing List Export")
+    pl.company = ci.company
+    pl.commercial_invoice = ci.name
+    pl.sales_order = ci.sales_order
+    pl.packing_date = frappe.utils.today()
+
+    # Copy shipper/exporter details
+    pl.shipper_name = ci.exporter_name
+    pl.shipper_address = ci.exporter_address
+
+    # Copy consignee details
+    pl.consignee_name = ci.customer_name
+    pl.consignee_address = ci.consignee_address
+
+    # Copy shipping info
+    pl.port_of_loading = ci.port_of_loading
+    pl.port_of_discharge = ci.port_of_discharge
+    pl.vessel_flight_no = ci.vessel_flight_no
+    pl.shipping_marks = ci.shipping_marks
+
+    # Set container info from CI
+    if ci.container_nos:
+        containers = [c.strip() for c in ci.container_nos.split(",")]
+        if len(containers) == 1:
+            pl.fcl_lcl = "FCL (Full Container Load)"
+            pl.container_size = "40ft"  # Default
+
+    # Set totals from CI
+    pl.total_quantity = ci.total_quantity
+    pl.total_net_weight = ci.total_net_weight
+    pl.total_gross_weight = ci.total_gross_weight
+    pl.total_volume_cbm = ci.total_volume_cbm
+
+    pl.insert()
+
+    return pl.name
+
+
+@frappe.whitelist()
+def create_bill_of_lading_from_packing_list(packing_list_name):
+    """
+    Create Bill of Lading from Packing List
+    This is called by the Packing List form or by Commercial Invoice orchestration
+    """
+    from import_export.import_export.doctype.bill_of_lading.bill_of_lading import create_from_packing_list
+    return create_from_packing_list(packing_list_name)

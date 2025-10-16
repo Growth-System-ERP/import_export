@@ -9,7 +9,8 @@ frappe.ui.form.on('Sales Order', {
                 args: {
                     doctype: 'Commercial Invoice Export',
                     filters: {
-                        sales_order: frm.doc.name
+                        sales_order: frm.doc.name,
+                        docstatus: ["<", 2],
                     },
                     fields: ['name'],
                     limit: 1
