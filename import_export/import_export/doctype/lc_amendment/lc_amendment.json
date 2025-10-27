@@ -1,0 +1,79 @@
+{
+ "actions": [],
+ "creation": "2025-10-17 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "amendment_number",
+  "amendment_date",
+  "amendment_type",
+  "amendment_details",
+  "charges",
+  "status"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "amendment_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Amendment Number",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "amendment_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Amendment Date",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "amendment_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Amendment Type",
+   "options": "Amount Increase\nAmount Decrease\nExpiry Extension\nShipment Date Extension\nDocument Change\nBeneficiary Change\nTerms Change\nOther",
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "fieldname": "amendment_details",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Amendment Details",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "charges",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Charges",
+   "options": "currency"
+  },
+  {
+   "columns": 1,
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-10-17 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "LC Amendment",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

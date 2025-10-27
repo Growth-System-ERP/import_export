@@ -1,0 +1,574 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-10-17 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "naming_series",
+  "application_date",
+  "company",
+  "col_break_1",
+  "sales_order",
+  "commercial_invoice",
+  "expected_lc_receipt_date",
+  "applicant_section",
+  "applicant_name",
+  "applicant_address",
+  "applicant_bank",
+  "applicant_bank_address",
+  "col_break_applicant",
+  "applicant_account_no",
+  "applicant_swift_code",
+  "applicant_country",
+  "beneficiary_section",
+  "beneficiary_name",
+  "beneficiary_address",
+  "beneficiary_bank",
+  "beneficiary_bank_address",
+  "col_break_beneficiary",
+  "beneficiary_account_no",
+  "beneficiary_swift_code",
+  "beneficiary_country",
+  "lc_details_section",
+  "lc_type",
+  "lc_amount",
+  "currency",
+  "col_break_lc",
+  "tolerance_percentage",
+  "tolerance_amount",
+  "partial_shipment",
+  "transhipment",
+  "validity_section",
+  "requested_validity_days",
+  "latest_shipment_date",
+  "col_break_validity",
+  "presentation_days",
+  "expiry_place",
+  "payment_section",
+  "payment_terms",
+  "tenor_days",
+  "col_break_payment",
+  "deferred_payment_date",
+  "interest_rate",
+  "shipment_section",
+  "port_of_loading",
+  "port_of_discharge",
+  "incoterm",
+  "col_break_shipment",
+  "insurance_required",
+  "freight_charges_borne_by",
+  "description_of_goods",
+  "documents_section",
+  "required_documents",
+  "special_conditions_section",
+  "special_conditions",
+  "charges_section",
+  "opening_charges",
+  "advising_charges",
+  "col_break_charges",
+  "confirmation_charges",
+  "other_charges",
+  "total_charges",
+  "status_section",
+  "status",
+  "lc_number",
+  "lc_received_date",
+  "rejection_reason",
+  "col_break_status",
+  "received_lc",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "Application Information"
+  },
+  {
+   "default": "LC-APP-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "LC-APP-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "application_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Application Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order"
+  },
+  {
+   "fieldname": "commercial_invoice",
+   "fieldtype": "Link",
+   "label": "Commercial Invoice",
+   "options": "Commercial Invoice Export"
+  },
+  {
+   "fieldname": "expected_lc_receipt_date",
+   "fieldtype": "Date",
+   "label": "Expected LC Receipt Date"
+  },
+  {
+   "fieldname": "applicant_section",
+   "fieldtype": "Section Break",
+   "label": "Applicant Details (Buyer/Importer)"
+  },
+  {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Applicant Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicant_address",
+   "fieldtype": "Small Text",
+   "label": "Applicant Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicant_bank",
+   "fieldtype": "Data",
+   "label": "Applicant Bank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicant_bank_address",
+   "fieldtype": "Small Text",
+   "label": "Applicant Bank Address"
+  },
+  {
+   "fieldname": "col_break_applicant",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "applicant_account_no",
+   "fieldtype": "Data",
+   "label": "Applicant Account Number"
+  },
+  {
+   "fieldname": "applicant_swift_code",
+   "fieldtype": "Data",
+   "label": "Applicant Bank SWIFT Code"
+  },
+  {
+   "fieldname": "applicant_country",
+   "fieldtype": "Link",
+   "label": "Applicant Country",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "beneficiary_section",
+   "fieldtype": "Section Break",
+   "label": "Beneficiary Details (Exporter - Your Company)"
+  },
+  {
+   "fetch_from": "company.company_name",
+   "fieldname": "beneficiary_name",
+   "fieldtype": "Data",
+   "label": "Beneficiary Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "beneficiary_address",
+   "fieldtype": "Small Text",
+   "label": "Beneficiary Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "beneficiary_bank",
+   "fieldtype": "Data",
+   "label": "Beneficiary Bank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "beneficiary_bank_address",
+   "fieldtype": "Small Text",
+   "label": "Beneficiary Bank Address"
+  },
+  {
+   "fieldname": "col_break_beneficiary",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "beneficiary_account_no",
+   "fieldtype": "Data",
+   "label": "Beneficiary Account Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "beneficiary_swift_code",
+   "fieldtype": "Data",
+   "label": "Beneficiary Bank SWIFT Code",
+   "reqd": 1
+  },
+  {
+   "default": "India",
+   "fieldname": "beneficiary_country",
+   "fieldtype": "Link",
+   "label": "Beneficiary Country",
+   "options": "Country",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lc_details_section",
+   "fieldtype": "Section Break",
+   "label": "Letter of Credit Details"
+  },
+  {
+   "default": "Irrevocable",
+   "fieldname": "lc_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "LC Type",
+   "options": "Irrevocable\nRevocable\nConfirmed\nUnconfirmed\nSight LC\nUsance LC\nRevolving LC\nTransferable LC\nBack-to-Back LC\nStandby LC",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lc_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "LC Amount",
+   "options": "currency",
+   "reqd": 1
+  },
+  {
+   "default": "USD",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_lc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "10",
+   "description": "Plus/Minus tolerance percentage",
+   "fieldname": "tolerance_percentage",
+   "fieldtype": "Percent",
+   "label": "Tolerance %"
+  },
+  {
+   "fieldname": "tolerance_amount",
+   "fieldtype": "Currency",
+   "label": "Tolerance Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "partial_shipment",
+   "fieldtype": "Check",
+   "label": "Partial Shipment Allowed"
+  },
+  {
+   "default": "0",
+   "fieldname": "transhipment",
+   "fieldtype": "Check",
+   "label": "Transhipment Allowed"
+  },
+  {
+   "fieldname": "validity_section",
+   "fieldtype": "Section Break",
+   "label": "Validity & Expiry"
+  },
+  {
+   "default": "90",
+   "fieldname": "requested_validity_days",
+   "fieldtype": "Int",
+   "label": "Requested Validity (Days)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "latest_shipment_date",
+   "fieldtype": "Date",
+   "label": "Latest Shipment Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_validity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "21",
+   "description": "Days after shipment to present documents",
+   "fieldname": "presentation_days",
+   "fieldtype": "Int",
+   "label": "Presentation Period (Days)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expiry_place",
+   "fieldtype": "Data",
+   "label": "Expiry Place"
+  },
+  {
+   "fieldname": "payment_section",
+   "fieldtype": "Section Break",
+   "label": "Payment Terms"
+  },
+  {
+   "default": "At Sight",
+   "fieldname": "payment_terms",
+   "fieldtype": "Select",
+   "label": "Payment Terms",
+   "options": "At Sight\nUsance\nDeferred Payment\nAcceptance\nNegotiation",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.payment_terms=='Usance' || doc.payment_terms=='Deferred Payment'",
+   "fieldname": "tenor_days",
+   "fieldtype": "Int",
+   "label": "Tenor (Days)"
+  },
+  {
+   "fieldname": "col_break_payment",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.payment_terms=='Deferred Payment'",
+   "fieldname": "deferred_payment_date",
+   "fieldtype": "Date",
+   "label": "Deferred Payment Date"
+  },
+  {
+   "depends_on": "eval:doc.payment_terms=='Usance' || doc.payment_terms=='Deferred Payment'",
+   "fieldname": "interest_rate",
+   "fieldtype": "Percent",
+   "label": "Interest Rate %"
+  },
+  {
+   "fieldname": "shipment_section",
+   "fieldtype": "Section Break",
+   "label": "Shipment Details"
+  },
+  {
+   "fieldname": "port_of_loading",
+   "fieldtype": "Data",
+   "label": "Port of Loading",
+   "reqd": 1
+  },
+  {
+   "fieldname": "port_of_discharge",
+   "fieldtype": "Data",
+   "label": "Port of Discharge",
+   "reqd": 1
+  },
+  {
+   "default": "FOB",
+   "fieldname": "incoterm",
+   "fieldtype": "Select",
+   "label": "Incoterm",
+   "options": "FOB\nCIF\nCFR\nEXW\nFCA\nCPT\nCIP\nDAP\nDPU\nDDP",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_shipment",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "insurance_required",
+   "fieldtype": "Check",
+   "label": "Insurance Required"
+  },
+  {
+   "depends_on": "insurance_required",
+   "fieldname": "freight_charges_borne_by",
+   "fieldtype": "Select",
+   "label": "Freight Charges Borne By",
+   "options": "Buyer\nSeller"
+  },
+  {
+   "fieldname": "description_of_goods",
+   "fieldtype": "Text Editor",
+   "label": "Description of Goods",
+   "reqd": 1
+  },
+  {
+   "fieldname": "documents_section",
+   "fieldtype": "Section Break",
+   "label": "Required Documents"
+  },
+  {
+   "fieldname": "required_documents",
+   "fieldtype": "Table",
+   "label": "Required Documents",
+   "options": "LC Required Document"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "special_conditions_section",
+   "fieldtype": "Section Break",
+   "label": "Special Conditions"
+  },
+  {
+   "fieldname": "special_conditions",
+   "fieldtype": "Text Editor",
+   "label": "Special Conditions"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "charges_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Charges"
+  },
+  {
+   "fieldname": "opening_charges",
+   "fieldtype": "Currency",
+   "label": "Opening Charges",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "advising_charges",
+   "fieldtype": "Currency",
+   "label": "Advising Charges",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "col_break_charges",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "confirmation_charges",
+   "fieldtype": "Currency",
+   "label": "Confirmation Charges",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "other_charges",
+   "fieldtype": "Currency",
+   "label": "Other Charges",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_charges",
+   "fieldtype": "Currency",
+   "label": "Total Charges",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted to Bank\nUnder Review\nApproved\nLC Received\nRejected\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lc_number",
+   "fieldtype": "Data",
+   "label": "LC Number (Once Received)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lc_received_date",
+   "fieldtype": "Date",
+   "label": "LC Received Date",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.status=='Rejected'",
+   "fieldname": "rejection_reason",
+   "fieldtype": "Text",
+   "label": "Rejection Reason"
+  },
+  {
+   "fieldname": "col_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "received_lc",
+   "fieldtype": "Link",
+   "label": "Received LC",
+   "options": "Letter of Credit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "LC Application",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-17 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Import Export",
+ "name": "LC Application",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Admin",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
