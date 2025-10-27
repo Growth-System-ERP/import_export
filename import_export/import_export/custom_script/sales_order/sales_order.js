@@ -40,10 +40,10 @@ frappe.ui.form.on('Sales Order', {
             }
             
             // Check payment method
-            if (!frm.doc.payment_method) {
-                frappe.msgprint(__('Payment Method is required for export orders'));
-                frappe.validated = false;
-            }
+            // if (!frm.doc.payment_method) {
+            //     frappe.msgprint(__('Payment Method is required for export orders'));
+            //     frappe.validated = false;
+            // }
             
             // Check if all items have HS codes
             let missing_hs_codes = [];

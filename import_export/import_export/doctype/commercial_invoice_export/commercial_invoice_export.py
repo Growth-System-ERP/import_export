@@ -138,9 +138,9 @@ def create_from_sales_order(sales_order):
     # Get and validate Sales Order
     so = frappe.get_doc("Sales Order", sales_order)
 
-    # Check if export order
-    if so.customer_group != "EXPORTER":
-        frappe.throw(_("This is not an export order. Customer Group must be 'EXPORTER'"))
+    # # Check if export order
+    if so.gst_category != "Overseas":
+        frappe.throw(_("This is not an export order."))
 
     # Check if already submitted
     if so.docstatus != 1:
@@ -256,7 +256,7 @@ def create_from_sales_order(sales_order):
 
     # ========== BANK DETAILS ==========
     # Try to get from company defaults if exists
-    if hasattr(company_doc, 'default_bank_account'):
+    if company_doc.get('default_bank_account'):
         bank_account = frappe.get_doc("Bank Account", company_doc.default_bank_account)
         ci.beneficiary_bank = bank_account.bank
         ci.swift_code = bank_account.swift_number if hasattr(bank_account, 'swift_number') else None
@@ -264,8 +264,8 @@ def create_from_sales_order(sales_order):
         ci.iban = bank_account.iban if hasattr(bank_account, 'iban') else None
 
     # Insert and return
-    ci.insert()
-    frappe.db.commit()
+    ci.insert(ignore_mandatory=True)
+    # frappe.db.commit()
 
     return ci.name
 
