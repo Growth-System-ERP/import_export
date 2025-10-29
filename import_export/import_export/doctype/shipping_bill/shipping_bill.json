@@ -1,495 +1,693 @@
 {
- "actions": [],
- "autoname": "naming_series:",
- "creation": "2025-10-14 17:00:44.910389",
- "default_view": "List",
- "doctype": "DocType",
- "engine": "InnoDB",
- "field_order": [
-  "basic_info_section",
-  "naming_series",
-  "shipping_bill_no",
-  "shipping_bill_date",
-  "shipping_bill_type",
-  "col_break_1",
-  "company",
-  "commercial_invoice",
-  "port_code",
-  "exporter_section",
-  "exporter_name",
-  "exporter_address",
-  "iec_code",
-  "col_break_exporter",
-  "exporter_gstin",
-  "exporter_pan",
-  "ad_code",
-  "consignee_section",
-  "consignee_name",
-  "consignee_address",
-  "destination_country",
-  "col_break_consignee",
-  "port_of_discharge",
-  "final_destination",
-  "shipping_section",
-  "port_of_loading",
-  "mode_of_shipment",
-  "vessel_flight_no",
-  "col_break_shipping",
-  "container_nos",
-  "expected_departure_date",
-  "items_section",
-  "items",
-  "value_section",
-  "total_fob_value_inr",
-  "total_fob_value_fc",
-  "freight_charges",
-  "col_break_value",
-  "insurance_charges",
-  "other_charges",
-  "currency",
-  "exchange_rate",
-  "export_incentive_section",
-  "duty_drawback_claimed",
-  "drawback_amount",
-  "col_break_incentive",
-  "rodtep_claimed",
-  "rodtep_rate",
-  "rodtep_amount",
-  "customs_section",
-  "filing_date",
-  "leo_date",
-  "customs_officer",
-  "col_break_customs",
-  "assessment_date",
-  "sb_status",
-  "remarks_section",
-  "remarks",
-  "status_section",
-  "status",
-  "amended_from"
- ],
- "fields": [
-  {
-   "fieldname": "basic_info_section",
-   "fieldtype": "Section Break",
-   "label": "Shipping Bill Information"
-  },
-  {
-   "default": "SB-.YYYY.-",
-   "fieldname": "naming_series",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Series",
-   "options": "SB-.YYYY.-",
-   "reqd": 1
-  },
-  {
-   "description": "Customs assigned number",
-   "fieldname": "shipping_bill_no",
-   "fieldtype": "Data",
-   "label": "Shipping Bill Number"
-  },
-  {
-   "default": "Today",
-   "fieldname": "shipping_bill_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Shipping Bill Date",
-   "reqd": 1
-  },
-  {
-   "default": "Free Shipping Bill",
-   "fieldname": "shipping_bill_type",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Type of Shipping Bill",
-   "options": "Free Shipping Bill\nDrawback Shipping Bill\nDEEC Shipping Bill\nEPCG Shipping Bill\nAdvance Authorization\nDFIA",
-   "reqd": 1
-  },
-  {
-   "fieldname": "col_break_1",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Company",
-   "options": "Company",
-   "reqd": 1
-  },
-  {
-   "fieldname": "commercial_invoice",
-   "fieldtype": "Link",
-   "label": "Commercial Invoice",
-   "options": "Commercial Invoice Export",
-   "reqd": 1
-  },
-  {
-   "description": "Indian Customs Port Code",
-   "fieldname": "port_code",
-   "fieldtype": "Data",
-   "label": "Port Code",
-   "reqd": 1
-  },
-  {
-   "fieldname": "exporter_section",
-   "fieldtype": "Section Break",
-   "label": "Exporter Details"
-  },
-  {
-   "fetch_from": "commercial_invoice.exporter_name",
-   "fieldname": "exporter_name",
-   "fieldtype": "Data",
-   "label": "Exporter Name",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "commercial_invoice.exporter_address",
-   "fieldname": "exporter_address",
-   "fieldtype": "Small Text",
-   "label": "Exporter Address",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "commercial_invoice.iec_code",
-   "fieldname": "iec_code",
-   "fieldtype": "Data",
-   "label": "IEC Code",
-   "reqd": 1
-  },
-  {
-   "fieldname": "col_break_exporter",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "commercial_invoice.exporter_gstin",
-   "fieldname": "exporter_gstin",
-   "fieldtype": "Data",
-   "label": "GSTIN"
-  },
-  {
-   "fetch_from": "commercial_invoice.exporter_pan",
-   "fieldname": "exporter_pan",
-   "fieldtype": "Data",
-   "label": "PAN"
-  },
-  {
-   "description": "Authorized Dealer Code",
-   "fieldname": "ad_code",
-   "fieldtype": "Data",
-   "label": "AD Code"
-  },
-  {
-   "fieldname": "consignee_section",
-   "fieldtype": "Section Break",
-   "label": "Consignee Details"
-  },
-  {
-   "fetch_from": "commercial_invoice.customer_name",
-   "fieldname": "consignee_name",
-   "fieldtype": "Data",
-   "label": "Consignee Name",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "commercial_invoice.consignee_address",
-   "fieldname": "consignee_address",
-   "fieldtype": "Small Text",
-   "label": "Consignee Address",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "commercial_invoice.consignee_country",
-   "fieldname": "destination_country",
-   "fieldtype": "Link",
-   "label": "Country of Destination",
-   "options": "Country",
-   "reqd": 1
-  },
-  {
-   "fieldname": "col_break_consignee",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "commercial_invoice.port_of_discharge",
-   "fieldname": "port_of_discharge",
-   "fieldtype": "Data",
-   "label": "Port of Discharge"
-  },
-  {
-   "fetch_from": "commercial_invoice.final_destination",
-   "fieldname": "final_destination",
-   "fieldtype": "Data",
-   "label": "Final Destination"
-  },
-  {
-   "fieldname": "shipping_section",
-   "fieldtype": "Section Break",
-   "label": "Shipping Details"
-  },
-  {
-   "fetch_from": "commercial_invoice.port_of_loading",
-   "fieldname": "port_of_loading",
-   "fieldtype": "Data",
-   "label": "Port of Loading",
-   "reqd": 1
-  },
-  {
-   "default": "Sea",
-   "fieldname": "mode_of_shipment",
-   "fieldtype": "Select",
-   "label": "Mode of Shipment",
-   "options": "Sea\nAir\nRoad\nRail\nPost",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "commercial_invoice.vessel_flight_no",
-   "fieldname": "vessel_flight_no",
-   "fieldtype": "Data",
-   "label": "Vessel/Flight Number"
-  },
-  {
-   "fieldname": "col_break_shipping",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "commercial_invoice.container_nos",
-   "fieldname": "container_nos",
-   "fieldtype": "Small Text",
-   "label": "Container Numbers"
-  },
-  {
-   "fieldname": "expected_departure_date",
-   "fieldtype": "Date",
-   "label": "Expected Departure Date"
-  },
-  {
-   "fieldname": "items_section",
-   "fieldtype": "Section Break",
-   "label": "Items for Export"
-  },
-  {
-   "fieldname": "items",
-   "fieldtype": "Table",
-   "label": "Items",
-   "options": "Shipping Bill Item",
-   "reqd": 1
-  },
-  {
-   "fieldname": "value_section",
-   "fieldtype": "Section Break",
-   "label": "Value Details"
-  },
-  {
-   "bold": 1,
-   "fieldname": "total_fob_value_inr",
-   "fieldtype": "Currency",
-   "label": "Total FOB Value (INR)",
-   "options": "INR",
-   "read_only": 1
-  },
-  {
-   "fieldname": "total_fob_value_fc",
-   "fieldtype": "Currency",
-   "label": "Total FOB Value (Foreign Currency)",
-   "options": "currency",
-   "read_only": 1
-  },
-  {
-   "fieldname": "freight_charges",
-   "fieldtype": "Currency",
-   "label": "Freight Charges",
-   "options": "INR"
-  },
-  {
-   "fieldname": "col_break_value",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "insurance_charges",
-   "fieldtype": "Currency",
-   "label": "Insurance Charges",
-   "options": "INR"
-  },
-  {
-   "fieldname": "other_charges",
-   "fieldtype": "Currency",
-   "label": "Other Charges",
-   "options": "INR"
-  },
-  {
-   "fetch_from": "commercial_invoice.currency",
-   "fieldname": "currency",
-   "fieldtype": "Link",
-   "label": "Foreign Currency",
-   "options": "Currency"
-  },
-  {
-   "fetch_from": "commercial_invoice.conversion_rate",
-   "fieldname": "exchange_rate",
-   "fieldtype": "Float",
-   "label": "Exchange Rate",
-   "precision": "9"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "export_incentive_section",
-   "fieldtype": "Section Break",
-   "label": "Export Incentives"
-  },
-  {
-   "default": "0",
-   "fieldname": "duty_drawback_claimed",
-   "fieldtype": "Check",
-   "label": "Duty Drawback Claimed"
-  },
-  {
-   "depends_on": "duty_drawback_claimed",
-   "fieldname": "drawback_amount",
-   "fieldtype": "Currency",
-   "label": "Drawback Amount",
-   "options": "INR"
-  },
-  {
-   "fieldname": "col_break_incentive",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "description": "Remission of Duties and Taxes on Exported Products",
-   "fieldname": "rodtep_claimed",
-   "fieldtype": "Check",
-   "label": "RoDTEP Claimed"
-  },
-  {
-   "depends_on": "rodtep_claimed",
-   "fieldname": "rodtep_rate",
-   "fieldtype": "Percent",
-   "label": "RoDTEP Rate (%)"
-  },
-  {
-   "depends_on": "rodtep_claimed",
-   "fieldname": "rodtep_amount",
-   "fieldtype": "Currency",
-   "label": "RoDTEP Amount",
-   "options": "INR",
-   "read_only": 1
-  },
-  {
-   "fieldname": "customs_section",
-   "fieldtype": "Section Break",
-   "label": "Customs Processing"
-  },
-  {
-   "fieldname": "filing_date",
-   "fieldtype": "Date",
-   "label": "Filed On"
-  },
-  {
-   "description": "Let Export Order Date",
-   "fieldname": "leo_date",
-   "fieldtype": "Date",
-   "label": "LEO Date"
-  },
-  {
-   "fieldname": "customs_officer",
-   "fieldtype": "Data",
-   "label": "Customs Officer"
-  },
-  {
-   "fieldname": "col_break_customs",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "assessment_date",
-   "fieldtype": "Date",
-   "label": "Assessment Date"
-  },
-  {
-   "default": "Draft",
-   "fieldname": "sb_status",
-   "fieldtype": "Select",
-   "label": "Customs Status",
-   "options": "Draft\nFiled\nAssessed\nCleared\nShipped\nRejected"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "remarks_section",
-   "fieldtype": "Section Break",
-   "label": "Remarks"
-  },
-  {
-   "fieldname": "remarks",
-   "fieldtype": "Text",
-   "label": "Remarks"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "status_section",
-   "fieldtype": "Section Break",
-   "label": "Status"
-  },
-  {
-   "default": "Draft",
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "label": "Status",
-   "options": "Draft\nSubmitted\nFiled\nCleared\nCancelled",
-   "read_only": 1
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Shipping Bill",
-   "read_only": 1
-  }
- ],
- "is_submittable": 1,
- "links": [],
- "modified": "2025-10-14 17:06:08.397645",
- "modified_by": "Administrator",
- "module": "Import Export",
- "name": "Shipping Bill",
- "naming_rule": "By \"Naming Series\" field",
- "owner": "Administrator",
- "permissions": [
-  {
-   "amend": 1,
-   "cancel": 1,
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "amend": 1,
-   "cancel": 1,
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Admin",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  }
- ],
- "show_name_in_global_search": 1,
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": [],
- "track_changes": 1
+  "actions": [],
+  "autoname": "naming_series:",
+  "creation": "2025-10-14 17:00:44.910389",
+  "default_view": "List",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "basic_info_section",
+    "naming_series",
+    "shipping_bill_no",
+    "shipping_bill_date",
+    "shipping_bill_type",
+    "col_break_1",
+    "company",
+    "commercial_invoice",
+    "port_code",
+    "exporter_section",
+    "exporter_name",
+    "exporter_address",
+    "iec_code",
+    "col_break_exporter",
+    "exporter_gstin",
+    "exporter_pan",
+    "ad_code",
+    "consignee_section",
+    "consignee_name",
+    "consignee_address",
+    "destination_country",
+    "col_break_consignee",
+    "port_of_discharge",
+    "final_destination",
+    "shipping_section",
+    "port_of_loading",
+    "mode_of_shipment",
+    "vessel_flight_no",
+    "col_break_shipping",
+    "container_nos",
+    "expected_departure_date",
+    "items_section",
+    "items",
+    "value_section",
+    "total_fob_value_inr",
+    "total_fob_value_fc",
+    "freight_charges",
+    "col_break_value",
+    "insurance_charges",
+    "other_charges",
+    "currency",
+    "exchange_rate",
+    "export_incentive_section",
+    "duty_drawback_claimed",
+    "drawback_amount",
+    "col_break_incentive",
+    "rodtep_claimed",
+    "rodtep_rate",
+    "rodtep_amount",
+    "incentive_details_section",
+    "rosctl_claimed",
+    "rosctl_rate",
+    "rosctl_amount",
+    "col_break_rosctl",
+    "meis_claimed",
+    "meis_rate",
+    "meis_amount",
+    "advance_auth_section",
+    "advance_authorization_no",
+    "aa_benefit_rate",
+    "aa_benefit_amount",
+    "col_break_aa",
+    "epcg_license_no",
+    "epcg_duty_saved",
+    "epcg_benefit_amount",
+    "other_incentives_section",
+    "interest_subvention_applicable",
+    "interest_subvention_rate",
+    "interest_subvention_amount",
+    "col_break_other",
+    "tma_applicable",
+    "tma_amount",
+    "incentive_summary_section",
+    "total_incentive_amount",
+    "net_foreign_exchange_realization",
+    "customs_section",
+    "filing_date",
+    "leo_date",
+    "customs_officer",
+    "col_break_customs",
+    "assessment_date",
+    "sb_status",
+    "remarks_section",
+    "remarks",
+    "status_section",
+    "status",
+    "amended_from"
+  ],
+  "fields": [
+    {
+      "fieldname": "basic_info_section",
+      "fieldtype": "Section Break",
+      "label": "Shipping Bill Information"
+    },
+    {
+      "default": "SB-.YYYY.-",
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Series",
+      "options": "SB-.YYYY.-",
+      "reqd": 1
+    },
+    {
+      "description": "Customs assigned number",
+      "fieldname": "shipping_bill_no",
+      "fieldtype": "Data",
+      "label": "Shipping Bill Number"
+    },
+    {
+      "default": "Today",
+      "fieldname": "shipping_bill_date",
+      "fieldtype": "Date",
+      "in_list_view": 1,
+      "label": "Shipping Bill Date",
+      "reqd": 1
+    },
+    {
+      "default": "Free Shipping Bill",
+      "fieldname": "shipping_bill_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Type of Shipping Bill",
+      "options": "Free Shipping Bill\nDrawback Shipping Bill\nDEEC Shipping Bill\nEPCG Shipping Bill\nAdvance Authorization\nDFIA",
+      "reqd": 1
+    },
+    {
+      "fieldname": "col_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "commercial_invoice",
+      "fieldtype": "Link",
+      "label": "Commercial Invoice",
+      "options": "Commercial Invoice Export",
+      "reqd": 1
+    },
+    {
+      "description": "Indian Customs Port Code",
+      "fieldname": "port_code",
+      "fieldtype": "Data",
+      "label": "Port Code",
+      "reqd": 1
+    },
+    {
+      "fieldname": "exporter_section",
+      "fieldtype": "Section Break",
+      "label": "Exporter Details"
+    },
+    {
+      "fetch_from": "commercial_invoice.exporter_name",
+      "fieldname": "exporter_name",
+      "fieldtype": "Data",
+      "label": "Exporter Name",
+      "read_only": 1
+    },
+    {
+      "fetch_from": "commercial_invoice.exporter_address",
+      "fieldname": "exporter_address",
+      "fieldtype": "Small Text",
+      "label": "Exporter Address",
+      "read_only": 1
+    },
+    {
+      "fetch_from": "commercial_invoice.iec_code",
+      "fieldname": "iec_code",
+      "fieldtype": "Data",
+      "label": "IEC Code",
+      "reqd": 1
+    },
+    {
+      "fieldname": "col_break_exporter",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fetch_from": "commercial_invoice.exporter_gstin",
+      "fieldname": "exporter_gstin",
+      "fieldtype": "Data",
+      "label": "GSTIN"
+    },
+    {
+      "fetch_from": "commercial_invoice.exporter_pan",
+      "fieldname": "exporter_pan",
+      "fieldtype": "Data",
+      "label": "PAN"
+    },
+    {
+      "description": "Authorized Dealer Code",
+      "fieldname": "ad_code",
+      "fieldtype": "Data",
+      "label": "AD Code"
+    },
+    {
+      "fieldname": "consignee_section",
+      "fieldtype": "Section Break",
+      "label": "Consignee Details"
+    },
+    {
+      "fetch_from": "commercial_invoice.customer_name",
+      "fieldname": "consignee_name",
+      "fieldtype": "Data",
+      "label": "Consignee Name",
+      "read_only": 1
+    },
+    {
+      "fetch_from": "commercial_invoice.consignee_address",
+      "fieldname": "consignee_address",
+      "fieldtype": "Small Text",
+      "label": "Consignee Address",
+      "read_only": 1
+    },
+    {
+      "fetch_from": "commercial_invoice.consignee_country",
+      "fieldname": "destination_country",
+      "fieldtype": "Link",
+      "label": "Country of Destination",
+      "options": "Country",
+      "reqd": 1
+    },
+    {
+      "fieldname": "col_break_consignee",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fetch_from": "commercial_invoice.port_of_discharge",
+      "fieldname": "port_of_discharge",
+      "fieldtype": "Data",
+      "label": "Port of Discharge"
+    },
+    {
+      "fetch_from": "commercial_invoice.final_destination",
+      "fieldname": "final_destination",
+      "fieldtype": "Data",
+      "label": "Final Destination"
+    },
+    {
+      "fieldname": "shipping_section",
+      "fieldtype": "Section Break",
+      "label": "Shipping Details"
+    },
+    {
+      "fetch_from": "commercial_invoice.port_of_loading",
+      "fieldname": "port_of_loading",
+      "fieldtype": "Data",
+      "label": "Port of Loading",
+      "reqd": 1
+    },
+    {
+      "default": "Sea",
+      "fieldname": "mode_of_shipment",
+      "fieldtype": "Select",
+      "label": "Mode of Shipment",
+      "options": "Sea\nAir\nRoad\nRail\nPost",
+      "reqd": 1
+    },
+    {
+      "fetch_from": "commercial_invoice.vessel_flight_no",
+      "fieldname": "vessel_flight_no",
+      "fieldtype": "Data",
+      "label": "Vessel/Flight Number"
+    },
+    {
+      "fieldname": "col_break_shipping",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fetch_from": "commercial_invoice.container_nos",
+      "fieldname": "container_nos",
+      "fieldtype": "Small Text",
+      "label": "Container Numbers"
+    },
+    {
+      "fieldname": "expected_departure_date",
+      "fieldtype": "Date",
+      "label": "Expected Departure Date"
+    },
+    {
+      "fieldname": "items_section",
+      "fieldtype": "Section Break",
+      "label": "Items for Export"
+    },
+    {
+      "fieldname": "items",
+      "fieldtype": "Table",
+      "label": "Items",
+      "options": "Shipping Bill Item",
+      "reqd": 1
+    },
+    {
+      "fieldname": "value_section",
+      "fieldtype": "Section Break",
+      "label": "Value Details"
+    },
+    {
+      "bold": 1,
+      "fieldname": "total_fob_value_inr",
+      "fieldtype": "Currency",
+      "label": "Total FOB Value (INR)",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "fieldname": "total_fob_value_fc",
+      "fieldtype": "Currency",
+      "label": "Total FOB Value (Foreign Currency)",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "freight_charges",
+      "fieldtype": "Currency",
+      "label": "Freight Charges",
+      "options": "INR"
+    },
+    {
+      "fieldname": "col_break_value",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "insurance_charges",
+      "fieldtype": "Currency",
+      "label": "Insurance Charges",
+      "options": "INR"
+    },
+    {
+      "fieldname": "other_charges",
+      "fieldtype": "Currency",
+      "label": "Other Charges",
+      "options": "INR"
+    },
+    {
+      "fetch_from": "commercial_invoice.currency",
+      "fieldname": "currency",
+      "fieldtype": "Link",
+      "label": "Foreign Currency",
+      "options": "Currency"
+    },
+    {
+      "fetch_from": "commercial_invoice.conversion_rate",
+      "fieldname": "exchange_rate",
+      "fieldtype": "Float",
+      "label": "Exchange Rate",
+      "precision": "9"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "export_incentive_section",
+      "fieldtype": "Section Break",
+      "label": "Export Incentives"
+    },
+    {
+      "default": "0",
+      "fieldname": "duty_drawback_claimed",
+      "fieldtype": "Check",
+      "label": "Duty Drawback Claimed"
+    },
+    {
+      "depends_on": "duty_drawback_claimed",
+      "fieldname": "drawback_amount",
+      "fieldtype": "Currency",
+      "label": "Drawback Amount",
+      "options": "INR"
+    },
+    {
+      "fieldname": "col_break_incentive",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "description": "Remission of Duties and Taxes on Exported Products",
+      "fieldname": "rodtep_claimed",
+      "fieldtype": "Check",
+      "label": "RoDTEP Claimed"
+    },
+    {
+      "depends_on": "rodtep_claimed",
+      "fieldname": "rodtep_rate",
+      "fieldtype": "Percent",
+      "label": "RoDTEP Rate (%)"
+    },
+    {
+      "depends_on": "rodtep_claimed",
+      "fieldname": "rodtep_amount",
+      "fieldtype": "Currency",
+      "label": "RoDTEP Amount",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "incentive_details_section",
+      "fieldtype": "Section Break",
+      "label": "Other Export Incentive Schemes"
+    },
+    {
+      "default": "0",
+      "description": "Rebate of State and Central Taxes and Levies (for textiles and apparels)",
+      "fieldname": "rosctl_claimed",
+      "fieldtype": "Check",
+      "label": "RoSCTL Claimed"
+    },
+    {
+      "depends_on": "rosctl_claimed",
+      "fieldname": "rosctl_rate",
+      "fieldtype": "Percent",
+      "label": "RoSCTL Rate (%)"
+    },
+    {
+      "depends_on": "rosctl_claimed",
+      "fieldname": "rosctl_amount",
+      "fieldtype": "Currency",
+      "label": "RoSCTL Amount",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_rosctl",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "description": "Merchandise Exports from India Scheme (legacy scheme)",
+      "fieldname": "meis_claimed",
+      "fieldtype": "Check",
+      "label": "MEIS Claimed"
+    },
+    {
+      "depends_on": "meis_claimed",
+      "fieldname": "meis_rate",
+      "fieldtype": "Percent",
+      "label": "MEIS Rate (%)"
+    },
+    {
+      "depends_on": "meis_claimed",
+      "fieldname": "meis_amount",
+      "fieldtype": "Currency",
+      "label": "MEIS Amount",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "advance_auth_section",
+      "fieldtype": "Section Break",
+      "label": "Advance Authorization & EPCG"
+    },
+    {
+      "description": "Advance Authorization Number if applicable",
+      "fieldname": "advance_authorization_no",
+      "fieldtype": "Data",
+      "label": "Advance Authorization No"
+    },
+    {
+      "depends_on": "advance_authorization_no",
+      "fieldname": "aa_benefit_rate",
+      "fieldtype": "Percent",
+      "label": "AA Benefit Rate (%)"
+    },
+    {
+      "depends_on": "advance_authorization_no",
+      "fieldname": "aa_benefit_amount",
+      "fieldtype": "Currency",
+      "label": "AA Benefit Amount",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_aa",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "Export Promotion Capital Goods License Number",
+      "fieldname": "epcg_license_no",
+      "fieldtype": "Data",
+      "label": "EPCG License No"
+    },
+    {
+      "depends_on": "epcg_license_no",
+      "description": "Duty saved under EPCG scheme",
+      "fieldname": "epcg_duty_saved",
+      "fieldtype": "Currency",
+      "label": "EPCG Duty Saved",
+      "options": "INR"
+    },
+    {
+      "depends_on": "epcg_license_no",
+      "fieldname": "epcg_benefit_amount",
+      "fieldtype": "Currency",
+      "label": "EPCG Benefit Amount",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "other_incentives_section",
+      "fieldtype": "Section Break",
+      "label": "Other Incentives"
+    },
+    {
+      "default": "0",
+      "description": "Interest subvention on pre/post shipment export credit",
+      "fieldname": "interest_subvention_applicable",
+      "fieldtype": "Check",
+      "label": "Interest Subvention Applicable"
+    },
+    {
+      "depends_on": "interest_subvention_applicable",
+      "fieldname": "interest_subvention_rate",
+      "fieldtype": "Percent",
+      "label": "Interest Subvention Rate (%)"
+    },
+    {
+      "depends_on": "interest_subvention_applicable",
+      "fieldname": "interest_subvention_amount",
+      "fieldtype": "Currency",
+      "label": "Interest Subvention Amount",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_other",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "description": "Transport and Marketing Assistance for specified agriculture products",
+      "fieldname": "tma_applicable",
+      "fieldtype": "Check",
+      "label": "TMA Applicable"
+    },
+    {
+      "depends_on": "tma_applicable",
+      "fieldname": "tma_amount",
+      "fieldtype": "Currency",
+      "label": "TMA Amount",
+      "options": "INR"
+    },
+    {
+      "fieldname": "incentive_summary_section",
+      "fieldtype": "Section Break",
+      "label": "Incentive Summary"
+    },
+    {
+      "bold": 1,
+      "description": "Sum of all export incentives claimed",
+      "fieldname": "total_incentive_amount",
+      "fieldtype": "Currency",
+      "label": "Total Incentive Amount",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "bold": 1,
+      "description": "Total FOB Value + Total Incentives",
+      "fieldname": "net_foreign_exchange_realization",
+      "fieldtype": "Currency",
+      "label": "Net Foreign Exchange Realization",
+      "options": "INR",
+      "read_only": 1
+    },
+    {
+      "fieldname": "customs_section",
+      "fieldtype": "Section Break",
+      "label": "Customs Processing"
+    },
+    {
+      "fieldname": "filing_date",
+      "fieldtype": "Date",
+      "label": "Filed On"
+    },
+    {
+      "description": "Let Export Order Date",
+      "fieldname": "leo_date",
+      "fieldtype": "Date",
+      "label": "LEO Date"
+    },
+    {
+      "fieldname": "customs_officer",
+      "fieldtype": "Data",
+      "label": "Customs Officer"
+    },
+    {
+      "fieldname": "col_break_customs",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "assessment_date",
+      "fieldtype": "Date",
+      "label": "Assessment Date"
+    },
+    {
+      "default": "Draft",
+      "fieldname": "sb_status",
+      "fieldtype": "Select",
+      "label": "Customs Status",
+      "options": "Draft\nFiled\nAssessed\nCleared\nShipped\nRejected"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "remarks_section",
+      "fieldtype": "Section Break",
+      "label": "Remarks"
+    },
+    {
+      "fieldname": "remarks",
+      "fieldtype": "Text",
+      "label": "Remarks"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "status_section",
+      "fieldtype": "Section Break",
+      "label": "Status"
+    },
+    {
+      "default": "Draft",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Draft\nSubmitted\nFiled\nCleared\nCancelled",
+      "read_only": 1
+    },
+    {
+      "fieldname": "amended_from",
+      "fieldtype": "Link",
+      "label": "Amended From",
+      "no_copy": 1,
+      "options": "Shipping Bill",
+      "read_only": 1
+    }
+  ],
+  "is_submittable": 1,
+  "links": [],
+  "modified": "2025-10-14 17:06:08.397645",
+  "modified_by": "Administrator",
+  "module": "Import Export",
+  "name": "Shipping Bill",
+  "naming_rule": "By \"Naming Series\" field",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "amend": 1,
+      "cancel": 1,
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "submit": 1,
+      "write": 1
+    },
+    {
+      "amend": 1,
+      "cancel": 1,
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Admin",
+      "share": 1,
+      "submit": 1,
+      "write": 1
+    }
+  ],
+  "show_name_in_global_search": 1,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1
 }

@@ -12,7 +12,7 @@ class BillofLading(Document):
         self.validate_commercial_invoice()
         self.calculate_totals()
         self.set_status()
-    
+
     def on_submit(self):
         self.bl_status = "Issued"
 
@@ -20,7 +20,7 @@ class BillofLading(Document):
             ci = frappe.get_doc("Commercial Invoice Export", self.commercial_invoice)
             ci.db_set("bill_of_lading_no", self.bl_no)
             ci.db_set("bl_date", self.bl_date)
-    
+
     def on_cancel(self):
         self.bl_status = "Cancelled"
 
@@ -28,34 +28,32 @@ class BillofLading(Document):
             ci = frappe.get_doc("Commercial Invoice Export", self.commercial_invoice)
             ci.db_set("bill_of_lading_no", "")
             ci.db_set("bl_date", "")
-    
+
     def validate_commercial_invoice(self):
         """Validate commercial invoice exists"""
         if not self.commercial_invoice:
             frappe.throw(_("Commercial Invoice is required"))
-        
+
         ci_status = frappe.db.get_value(
-            "Commercial Invoice Export", 
-            self.commercial_invoice, 
-            "docstatus"
+            "Commercial Invoice Export", self.commercial_invoice, "docstatus"
         )
-        
+
         if ci_status != 1:
             frappe.throw(_("Commercial Invoice must be submitted"))
-    
+
     def calculate_totals(self):
         """Calculate totals from containers"""
         if not self.containers:
             return
-        
+
         self.total_packages = sum(
             flt(container.no_of_packages) for container in self.containers
         )
-        
+
         self.total_gross_weight = sum(
             flt(container.gross_weight) for container in self.containers
         )
-    
+
     def set_status(self):
         """Set document status"""
         if self.docstatus == 0:
@@ -71,37 +69,41 @@ def get_containers_from_packing_list(commercial_invoice):
     """Get container details from Packing List"""
     if not commercial_invoice:
         return []
-    
+
     # Find packing list linked to this commercial invoice
     packing_lists = frappe.get_all(
         "Packing List Export",
         filters={"commercial_invoice": commercial_invoice, "docstatus": 1},
-        limit=1
+        limit=1,
     )
-    
+
     if not packing_lists:
         return []
-    
+
     packing_list = frappe.get_doc("Packing List Export", packing_lists[0].name)
-    
+
     # Get container info from Commercial Invoice
     ci = frappe.get_doc("Commercial Invoice Export", commercial_invoice)
-    
+
     containers = []
     if ci.container_nos:
         # Parse container numbers (comma-separated)
         container_numbers = [c.strip() for c in ci.container_nos.split(",")]
-        
+
         for container_no in container_numbers:
-            containers.append({
-                "container_no": container_no,
-                "seal_no": "",  # To be filled manually
-                "container_size": packing_list.container_size or "40ft",
-                "container_type": "Dry",
-                "no_of_packages": int(packing_list.total_cartons) if packing_list.total_cartons else 0,
-                "gross_weight": flt(packing_list.total_gross_weight)
-            })
-    
+            containers.append(
+                {
+                    "container_no": container_no,
+                    "seal_no": "",  # To be filled manually
+                    "container_size": packing_list.container_size or "40ft",
+                    "container_type": "Dry",
+                    "no_of_packages": int(packing_list.total_cartons)
+                    if packing_list.total_cartons
+                    else 0,
+                    "gross_weight": flt(packing_list.total_gross_weight),
+                }
+            )
+
     return containers
 
 
@@ -109,14 +111,15 @@ def get_containers_from_packing_list(commercial_invoice):
 def surrender_bl(bl_name):
     """Mark B/L as surrendered (for telex release)"""
     doc = frappe.get_doc("Bill of Lading", bl_name)
-    
+
     if doc.docstatus != 1:
         frappe.throw(_("Only submitted B/L can be surrendered"))
-    
+
     doc.bl_status = "Surrendered"
     doc.save()
-    
+
     return {"message": "B/L surrendered successfully"}
+
 
 @frappe.whitelist()
 def create_from_packing_list(packing_list_name):
@@ -138,10 +141,9 @@ def create_from_packing_list(packing_list_name):
     ci = frappe.get_doc("Commercial Invoice Export", pl.commercial_invoice)
 
     # Check if B/L already exists for this CI
-    existing = frappe.db.exists("Bill of Lading", {
-        "commercial_invoice": ci.name,
-        "docstatus": ["!=", 2]
-    })
+    existing = frappe.db.exists(
+        "Bill of Lading", {"commercial_invoice": ci.name, "docstatus": ["!=", 2]}
+    )
 
     if existing:
         frappe.throw(_("Bill of Lading already exists: {0}").format(existing))
@@ -160,20 +162,20 @@ def create_from_packing_list(packing_list_name):
     bl.shipper_name = ci.exporter_name
     bl.shipper_address = ci.exporter_address
     bl.shipper_email = ci.exporter_email
-    bl.shipper_phone = ci.exporter_phone
+    bl.shipper_contact = ci.exporter_phone
 
     # Consignee details
     bl.consignee_name = ci.customer_name
     bl.consignee_address = ci.consignee_address
     bl.consignee_email = ci.consignee_email
-    bl.consignee_phone = ci.consignee_phone
+    bl.consignee_contact = ci.consignee_phone
 
     # Notify party
     if ci.notify_party_name:
         bl.notify_party_name = ci.notify_party_name
         bl.notify_party_address = ci.notify_party_address
         bl.notify_party_email = ci.notify_party_email
-        bl.notify_party_phone = ci.notify_party_phone
+        bl.notify_party_contact = ci.notify_party_phone
     else:
         bl.notify_party_name = ci.customer_name
         bl.notify_party_address = ci.consignee_address
@@ -210,21 +212,34 @@ def create_from_packing_list(packing_list_name):
         if ci.seal_nos:
             seal_numbers = [s.strip() for s in ci.seal_nos.split(",")]
 
-        packages_per_container = int(pl.total_cartons / len(container_numbers)) if len(container_numbers) > 0 else pl.total_cartons
-        weight_per_container = pl.total_gross_weight / len(container_numbers) if len(container_numbers) > 0 else pl.total_gross_weight
+        packages_per_container = (
+            int(pl.total_cartons / len(container_numbers))
+            if len(container_numbers) > 0
+            else pl.total_cartons
+        )
+        weight_per_container = (
+            pl.total_gross_weight / len(container_numbers)
+            if len(container_numbers) > 0
+            else pl.total_gross_weight
+        )
 
         for idx, container_no in enumerate(container_numbers):
-            bl.append("containers", {
-                "container_no": container_no,
-                "seal_no": seal_numbers[idx] if idx < len(seal_numbers) else "",
-                "container_size": pl.container_size or "40ft",
-                "container_type": "Dry",  # Default
-                "no_of_packages": packages_per_container,
-                "gross_weight": weight_per_container
-            })
+            bl.append(
+                "containers",
+                {
+                    "container_no": container_no,
+                    "seal_no": seal_numbers[idx] if idx < len(seal_numbers) else "",
+                    "container_size": pl.container_size or "40ft",
+                    "container_type": "Dry",  # Default
+                    "no_of_packages": packages_per_container,
+                    "gross_weight": weight_per_container,
+                },
+            )
 
     # Freight details
-    bl.freight_terms = "Prepaid" if ci.incoterm in ["CIF", "CFR", "CPT", "CIP"] else "Collect"
+    bl.freight_terms = (
+        "Prepaid" if ci.incoterm in ["CIF", "CFR", "CPT", "CIP"] else "Collect"
+    )
     bl.freight_charges = ci.freight_charges
     bl.currency = ci.currency
 
@@ -234,9 +249,11 @@ def create_from_packing_list(packing_list_name):
     bl.insert()
 
     frappe.msgprint(
-        _("Bill of Lading created from Packing List. Please update B/L Number and Carrier details."),
+        _(
+            "Bill of Lading created from Packing List. Please update B/L Number and Carrier details."
+        ),
         indicator="green",
-        alert=True
+        alert=True,
     )
 
     return bl.name
